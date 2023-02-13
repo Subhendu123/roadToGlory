@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+
+<!--    <context:property-placeholder location="config.properties"></context:property-placeholder>-->
+
+    <!--NOTE:  No visibility of the properties file below one properties file. only the top one has visibility.
+    Thus uncommenting the above properties file will end up throwing error:
+    Exception in thread "main" org.springframework.beans.factory.BeanDefinitionStoreException:
+    Invalid bean definition with name 'lastCoach' defined in class path resource [applicationContext.xml]: Could not resolve placeholder 'hockeycoach.name' in value "${hockeycoach.name}"; nested exception is java.lang.IllegalArgumentException: Could not resolve placeholder 'hockeycoach.name' in value "${hockeycoach.name}" -->
+
+<!--    <context:property-placeholder location="config_user.properties"></context:property-placeholder>-->
+
+    <!-- To overcome the above problem we need to declare both the properties file or use wildcard character-->
+    <context:property-placeholder location="*.properties"></context:property-placeholder>
+
+    <bean id="theCoach" class="com.roadToGlory.basics.FootballCoach"></bean>
+    <bean id="secondCoach" class="com.roadToGlory.basics.TrackCoach"></bean>
+
+    <!-- Constructor Injection -->
+    <bean id="fortuneServiceId" class="com.roadToGlory.basics.FortuneService">
+
+    </bean>
+    <bean id="thirdCoach" class="com.roadToGlory.basics.CricketCoach">
+        <constructor-arg ref="fortuneServiceId"></constructor-arg>
+    </bean>
+
+    <bean id="lastCoach" class="com.roadToGlory.basics.HockeyCoach">
+        <!--      <property name="name" value="Hockey Coach"></property>-->
+        <!--      <property name="age" value="39"></property>-->
+        <property name="name" value="${hockeycoach.name}"></property>
+        <property name="age" value="${coach.age}"></property>
+        <property name="fortuneService" ref="fortuneServiceId"></property>
+
+    </bean>
+
+</beans>

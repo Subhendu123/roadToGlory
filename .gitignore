@@ -1,0 +1,4 @@
+# Project exclude paths
+/coding_exercises/target/
+/springworkspace/target/
+/coding_exercises/src/main/PDF_Downloads

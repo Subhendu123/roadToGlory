@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+ <!-- NOTE: Even in the below dependent case, theCoach bean is singleton.
+  Though The fortune service which is a dependent class, is a prototype one, theCoach bean is still a singleton in nature.
+    <bean id="fortuneServiceId" class="com.roadToGlory.basics.FortuneService" scope="prototype"></bean>
+    <bean id="theCoach" class="com.roadToGlory.basics.CricketCoach">
+        <constructor-arg ref="fortuneServiceId"></constructor-arg>
+    </bean>
+   -->
+
+    <bean id="fortuneServiceId" class="com.roadToGlory.basics.FortuneService" ></bean>
+
+    <bean id="theCoach" class="com.roadToGlory.basics.CricketCoach" scope="singleton"
+          init-method="doInitialization" lazy-init="false" destroy-method="onDestroy">
+        <constructor-arg ref="fortuneServiceId"></constructor-arg>
+    </bean>
+
+    <bean id="thirdCoach" class="com.roadToGlory.basics.TrackCoach" scope="prototype"
+          init-method="doInit"></bean>
+
+
+
+</beans>
