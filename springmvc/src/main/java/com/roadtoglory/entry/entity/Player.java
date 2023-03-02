@@ -1,7 +1,8 @@
 package com.roadtoglory.entry.entity;
 
+
 import javax.persistence.*;
-import java.util.ArrayList;
+import java.util.Set;
 
 @Entity
 @Table(name = "player")
@@ -23,7 +24,7 @@ public class Player {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "car_id")
-    private ArrayList<Car> car;
+    private Set<Car> car;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "basic_info_id")
@@ -54,11 +55,11 @@ public class Player {
         this.currentClub = currentClub;
     }
 
-    public ArrayList<Car> getCar() {
+    public Set<Car> getCar() {
         return car;
     }
 
-    public void setCar(ArrayList<Car> car) {
+    public void setCar(Set<Car> car) {
         this.car = car;
     }
 
