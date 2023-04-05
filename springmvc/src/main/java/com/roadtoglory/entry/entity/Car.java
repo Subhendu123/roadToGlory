@@ -23,6 +23,7 @@ public class Car {
     @JoinColumn(name = "basic_info_id")
     private PersonalInformation basicInfo;
 
+
     public String getMileage() {
         return mileage;
     }
