@@ -1,6 +1,6 @@
 package com.roadtoglory.entry.controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+//import com.fasterxml.jackson.databind.ObjectMapper;
 import com.roadtoglory.entry.dtos.InstructorInformationDTO;
 import com.roadtoglory.entry.entity.Instructor;
 import com.roadtoglory.entry.entity.InstructorDetail;
@@ -17,8 +17,8 @@ public class InstructorMappingController {
     @Autowired
     private InstructorRepository instructorRepository;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+//    @Autowired
+//    private ObjectMapper objectMapper;
 //
     @Autowired
     private InstructorDetailsRepository instructorDetailsRepository;

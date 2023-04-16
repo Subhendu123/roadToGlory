@@ -17,7 +17,9 @@
     <name>springmvc</name>
     <description>Spring mvc project for Spring Boot</description>
     <properties>
-        <java.version>11</java.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <org.log4j.version>2.17.1</org.log4j.version>
     </properties>
     <dependencies>
         <!-- needed for dispatcher servlet -->
