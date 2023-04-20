@@ -28,9 +28,7 @@ public class BubbleSort {
         for(int i=0;i<inpArray.length;i++){
             for(int j=0; j< inpArray.length-i-1; j++){
                 if(inpArray[j] > inpArray[j+1]) {
-                    int tempVarForSwap = inpArray[j + 1];
-                    inpArray[j + 1] = inpArray[j];
-                    inpArray[j] = tempVarForSwap;
+                    ArrayUtility.swapElements(inpArray, j, j+1);
                 }
             }
         }
