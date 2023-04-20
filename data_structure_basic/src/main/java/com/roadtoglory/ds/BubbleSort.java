@@ -17,7 +17,7 @@ public class BubbleSort {
         System.out.println("The Input array before sorting is ");
         ArrayUtility.printArray(input1);
 
-        int[] sortedInput1 = new BubbleSort().sort(input1);
+        int[] sortedInput1 = new BubbleSort().sort2(input1);
 
         System.out.println("The bubble sorted array is ");
         ArrayUtility.printArray(sortedInput1);
@@ -33,6 +33,17 @@ public class BubbleSort {
             }
         }
         return inpArray;
+    }
 
+    public int[] sort2(int[] inpArray){
+
+        for(int unsortedIndex=inpArray.length-1; unsortedIndex > 0; unsortedIndex--){
+            for (int i=0; i<unsortedIndex;i++){
+                if(inpArray[i] > inpArray[i+1]) {
+                    ArrayUtility.swapElements(inpArray, i, i+1);
+                }
+            }
+        }
+        return inpArray;
     }
 }
