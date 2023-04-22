@@ -28,7 +28,7 @@ public class BubbleSort {
         for(int i=0;i<inpArray.length;i++){
             for(int j=0; j< inpArray.length-i-1; j++){
                 if(inpArray[j] > inpArray[j+1]) {
-                    ArrayUtility.swapElements(inpArray, j, j+1);
+                    ArrayUtility.swapByIndices(inpArray, j, j+1);
                 }
             }
         }
@@ -40,7 +40,7 @@ public class BubbleSort {
         for(int unsortedIndex=inpArray.length-1; unsortedIndex > 0; unsortedIndex--){
             for (int i=0; i<unsortedIndex;i++){
                 if(inpArray[i] > inpArray[i+1]) {
-                    ArrayUtility.swapElements(inpArray, i, i+1);
+                    ArrayUtility.swapByIndices(inpArray, i, i+1);
                 }
             }
         }
