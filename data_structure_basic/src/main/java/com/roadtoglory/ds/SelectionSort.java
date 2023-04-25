@@ -1,25 +1,9 @@
 package com.roadtoglory.ds;
 
-public class SelectionSort {
+public class SelectionSort  implements Sort{
 
-    public static void main(String[] args) {
-        int[] input = {0,-2,4,10,-5, 3, 9};
-        System.out.println("The Input array before sorting is ");
-        ArrayUtility.printArray(input);
-
-        int[] sortedInput = new SelectionSort().sort(input);
-
-        System.out.println("The Selection sorted array is ");
-        ArrayUtility.printArray(sortedInput);
-
-        int[] input1 = {0,20, 100, 80, 50, 70, 60, 30, 90 , 10, 40};
-        System.out.println("The Input array before sorting is ");
-        ArrayUtility.printArray(input1);
-
-        int[] sortedInput1 = new SelectionSort().sort(input1);
-
-        System.out.println("The bubble sorted array is ");
-        ArrayUtility.printArray(sortedInput1);
+    public SelectionSort(){
+        System.out.println("************* This is a Selection Sort ************");
     }
 
     public int[] sort(int[] inpArr){
