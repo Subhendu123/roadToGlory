@@ -9,10 +9,10 @@ public class Connect {
         Connection conn = null;
 
         try {
-            String userName = "hbstudent";
-            String password = "hbstudent";
+            String userName = "subhendu";
+            String password = "12345";
 
-            String url = "jdbc:mysql://localhost:3306/hb_student_tracker";
+            String url = "jdbc:mysql://192.168.1.9:3306/demodb";
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             conn = DriverManager.getConnection(url, userName, password);
             System.out.println("Database connection established");

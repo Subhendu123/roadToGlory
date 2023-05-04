@@ -3,7 +3,7 @@ package com.roadtoglory.ds;
 public class Main {
     public static void main(String[] args) {
 
-        Sort sortingKlass = new SelectionSort();
+        Sort sortingKlass = new ShellSort();
 
         int[] input = {0,-2,4,10,-5, 3, 9};
         System.out.println("The Input array before sorting is ");
