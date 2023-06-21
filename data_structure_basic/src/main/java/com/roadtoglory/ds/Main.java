@@ -1,11 +1,17 @@
 package com.roadtoglory.ds;
 
+import java.util.Random;
+
 public class Main {
     public static void main(String[] args) {
 
-        Sort sortingKlass = new ShellSort();
+        Sort sortingKlass = new MergeSort();
 
-        int[] input = {0,-2,4,10,-5, 3, 9};
+        int[] input = new int[100000000];
+        Random random = new Random();
+        for(int i=0; i<input.length; i++){
+            input[i] = random.nextInt();
+        }
         System.out.println("The Input array before sorting is ");
         ArrayUtility.printArray(input);
 
@@ -14,6 +20,7 @@ public class Main {
         System.out.println("The Sorted array is ");
         ArrayUtility.printArray(sortedInput);
 
+/*
         int[] input1 = {0,20, 100, 80, 50, 70, 60, 30, 90 , 10, 40 , -5};
         System.out.println("The Input array before sorting is ");
         ArrayUtility.printArray(input1);
@@ -21,6 +28,6 @@ public class Main {
         int[] sortedInput1 = sortingKlass.sort(input1);
 
         System.out.println("The sorted array is ");
-        ArrayUtility.printArray(sortedInput1);
+        ArrayUtility.printArray(sortedInput1);*/
     }
 }
