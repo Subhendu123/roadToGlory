@@ -1,0 +1,11 @@
+FROM alpine
+RUN apk add --update redis
+RUN apk add gcc
+CMD ["/bin/sh", "redis-server"]
+
+
+FROM node:16.20.0-alpine3.18
+WORKDIR /my-first-project
+COPY ./ ./
+EXPORT 4200:4200
+CMD ["ng","serve"]
