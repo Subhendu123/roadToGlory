@@ -14,6 +14,10 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
     implementation ("org.apache.poi:poi:5.2.3")
     implementation ("org.apache.poi:poi-ooxml:5.2.3")
+    implementation ("com.github.sritejakv:splitwise:1.0")
+    // https://mvnrepository.com/artifact/com.splitwise/tokenautocomplete
+    implementation ("com.splitwise:tokenautocomplete:4.0.0-beta05")
+
 
 //    implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.2.3'
 }
