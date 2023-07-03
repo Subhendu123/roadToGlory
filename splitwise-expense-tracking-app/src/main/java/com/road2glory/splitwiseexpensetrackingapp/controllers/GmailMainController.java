@@ -5,7 +5,13 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.road2glory.splitwiseexpensetrackingapp.constants.GmailApiConstants;
 import com.road2glory.splitwiseexpensetrackingapp.models.GmailMessage;
+import com.road2glory.splitwiseexpensetrackingapp.models.GmailMessageDetails;
+import com.road2glory.splitwiseexpensetrackingapp.services.GmailService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -22,7 +28,14 @@ import java.util.List;
 @RestController
 public class GmailMainController {
 
-    private static String GMAIL_URI = "https://gmail.googleapis.com/gmail/v1/users/";
+    private static Logger LOG = LogManager.getLogger(GmailMainController.class);
+    @Autowired
+    private GmailService gmailService;
+
+    @Autowired
+    private GmailAPIManagerController gmailAPIManagerController;
+
+
 
     @RequestMapping(value = "/hello-gmail", method = RequestMethod.GET)
     public ResponseEntity getHello() {
@@ -47,40 +60,34 @@ public class GmailMainController {
         String responseBody = null;
         try{
             // validate the email id before passing (using spring)
-            String finalURL = GmailMainController.GMAIL_URI
+            String finalURL = GmailApiConstants.GMAIL_URI
                                             .concat(emailId)
                                             .concat("/messages")
                     .concat("?q="+criteria)
                     .concat("&maxResults="+maxResults);
             responseBody = restTemplate.exchange(finalURL, HttpMethod.GET,entity,String.class).getBody();
 
-            result = ResponseEntity.ok(responseBody);
         }catch (HttpClientErrorException ie){
             System.out.println("THE RESPONSE IS "+ie);
             result = new ResponseEntity(ie.getMessage(), ie.getStatusCode());
             return result;
         }
-//        finally {
-//            return result;
-//        }
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        List<GmailMessage> gmailMessageList = null;
-
-        try {
-           JsonNode responseNode = objectMapper.readTree(responseBody);
-            if(responseNode.has("messages")){
-                gmailMessageList  = objectMapper.readValue(responseNode.get("messages").traverse(),
-                        new TypeReference<ArrayList<GmailMessage>>(){});
-
-            }
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        List<GmailMessage> gmailMessageList  = gmailService.formatMailsFromSource(responseBody);
+        List<GmailMessageDetails> gmailMessageDetailsList = new ArrayList<>();
+        for(GmailMessage gmailMessage : gmailMessageList){
+            GmailMessageDetails gmailMessageDetails =
+                    gmailAPIManagerController.getMailDetails(gmailMessage.getId(),authToken, emailId);
+            gmailMessageDetailsList.add(gmailMessageDetails);
         }
-        return ResponseEntity.ok(gmailMessageList);
+
+        return ResponseEntity.ok(gmailMessageDetailsList);
     }
+
+
 }
+
+
+
 
 
