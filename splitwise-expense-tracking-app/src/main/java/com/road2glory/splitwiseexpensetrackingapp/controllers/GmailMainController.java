@@ -81,6 +81,8 @@ public class GmailMainController {
             gmailMessageDetailsList.add(gmailMessageDetails);
         }
 
+        gmailService.exportToExcel(gmailMessageDetailsList);
+
         return ResponseEntity.ok(gmailMessageDetailsList);
     }
 

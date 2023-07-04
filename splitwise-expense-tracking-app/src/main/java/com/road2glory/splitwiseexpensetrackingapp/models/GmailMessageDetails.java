@@ -3,7 +3,7 @@ package com.road2glory.splitwiseexpensetrackingapp.models;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Component
 //@Scope("prototype")
@@ -12,7 +12,7 @@ public class GmailMessageDetails {
     private String id;
     private String snippet;
     private String subject;
-    private Date dateOfSend;
+    private LocalDate dateOfSend;
     private String fromAddress;
 
     public String getId() {
@@ -39,11 +39,11 @@ public class GmailMessageDetails {
         this.subject = subject;
     }
 
-    public Date getDateOfSend() {
+    public LocalDate getDateOfSend() {
         return dateOfSend;
     }
 
-    public void setDateOfSend(Date dateOfSend) {
+    public void setDateOfSend(LocalDate dateOfSend) {
         this.dateOfSend = dateOfSend;
     }
 
