@@ -90,6 +90,12 @@ public class GmailService {
 
                     String dateString = header.getValue();
                     try {
+                        /*
+                        LocalDate now = LocalDate.now().atStartOfDay().toLocalDate();
+        System.out.println("The local date "+now);
+        java.sql.Date date = java.sql.Date.valueOf(now);
+        Date date1 = new Date(date.getTime());
+        System.out.println("The java.util date "+date1); */
 //                        LocalDate localDate = LocalDate.parse(dateString, formatter);
 //                        Date date = new Date(localDate.getYear(),localDate.getMonthValue(),localDate.getDayOfMonth());
 //                        gmailMessageDetails.setDateOfSend(localDate);
