@@ -8,10 +8,12 @@ import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.road2glory.splitwiseexpensetrackingapp.constants.GmailApiConstants;
 import com.road2glory.splitwiseexpensetrackingapp.models.GmailMessage;
 import com.road2glory.splitwiseexpensetrackingapp.models.GmailMessageDetails;
+import com.road2glory.splitwiseexpensetrackingapp.models.User;
 import com.road2glory.splitwiseexpensetrackingapp.services.GmailService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -34,6 +36,10 @@ public class GmailMainController {
 
     @Autowired
     private GmailAPIManagerController gmailAPIManagerController;
+
+
+    @Autowired
+    private  SplitwiseMainController splitwiseMainController;
 
 
 
@@ -81,7 +87,25 @@ public class GmailMainController {
             gmailMessageDetailsList.add(gmailMessageDetails);
         }
 
-        gmailService.exportToExcel(gmailMessageDetailsList);
+        // call splitwise ctrl for collecting splitwise data
+        ResponseEntity<List<User>> responseEntity = null;
+        try {
+            responseEntity = splitwiseMainController.getExpensesForCurrentUser(40913687,"2023-06-01","2023-07-05",
+                    100);
+        } catch (JSONException e) {
+            LOG.error("The exception is occurred due to "+e);
+            throw new RuntimeException(e);
+        }
+        List<User> userDetailsList = responseEntity.getBody();
+
+        try {
+            gmailService.exportToExcel(gmailMessageDetailsList, userDetailsList);
+        } catch (IOException e) {
+            LOG.error("The export to excel is failed with error "+e);
+            e.printStackTrace();
+            //row new RuntimeException(e);
+
+        }
 
         return ResponseEntity.ok(gmailMessageDetailsList);
     }

@@ -7,5 +7,8 @@ public class DateFormatPattern {
 
     public static String DATE_FORMAT_WITH_TZ = "E, d MMM yyyy HH:mm:ss Z (z)";
 
+    public static String DATE_FORMAT_WITHOUT_TZ = "E, d MMM yyyy HH:mm:ss Z";
+
+
 
 }
