@@ -1,18 +1,20 @@
 package com.road2glory.splitwiseexpensetrackingapp.utility;
 
 import com.road2glory.splitwiseexpensetrackingapp.constants.ExcelHeader;
+import com.road2glory.splitwiseexpensetrackingapp.constants.Placeholders;
 import com.road2glory.splitwiseexpensetrackingapp.models.ExpenseDetails;
 import com.road2glory.splitwiseexpensetrackingapp.models.GmailMessageDetails;
 import com.road2glory.splitwiseexpensetrackingapp.models.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.poi.sl.usermodel.Placeholder;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.util.List;
+import java.util.*;
 
 public class ExcelUtility {
     private static Logger LOG = LogManager.getLogger(ExcelUtility.class);
@@ -82,9 +84,12 @@ public class ExcelUtility {
     public static void convertSplitwiseToExcel(User userToCheck, XSSFWorkbook workbook) {
         LOG.debug("Splitwise Data is getting written here....");
         XSSFSheet splitwiseSheet = workbook.createSheet("splitwise_expenses");
-
+        XSSFSheet categorySheet = workbook.createSheet("category_expenses");
         ExcelUtility.createAndFetchHeader(splitwiseSheet);
 
+        Map<String, Double> catMap = new HashMap<>();
+        Map<String, Double> othersCatMap = new HashMap<>();
+        Map<String, Double> selfCatMap = new HashMap<>();
         // create row
         int splitwiseRowNumber = 1; //0 is taken by the header
 
@@ -108,6 +113,7 @@ public class ExcelUtility {
                 bodyRow.createCell(columnIndex).setCellValue(expenseDetails.getDescription());
                 columnIndex++;
 
+                setCategoryDetails(expenseDetails);
                 bodyRow.createCell(columnIndex).setCellValue(expenseDetails.getCategory());
                 columnIndex++;
 
@@ -117,9 +123,73 @@ public class ExcelUtility {
                 bodyRow.createCell(columnIndex).setCellValue(expenseDetails.isPaidbyme() ? "Yes" : "No");
 
                 splitwiseRowNumber++;
+
+                populateCategoryMap(catMap, expenseDetails);
+
+                if (expenseDetails.isPaidbyme()) {
+                    populateCategoryMap(selfCatMap, expenseDetails);
+                } else {
+                    populateCategoryMap(othersCatMap, expenseDetails);
+                }
             }
+
+            // Mapping the Category and generate Excel sheet
+            int rowNum = 0;
+            rowNum = exportCategoryToExcel(categorySheet, catMap, rowNum, "Grand Total");
+            rowNum = exportCategoryToExcel(categorySheet, othersCatMap, rowNum, "Paid By Others");
+            exportCategoryToExcel(categorySheet, selfCatMap, rowNum, "Individual Payment");
+
         }
+
         LOG.debug("Splitwise Data written here. Operation ends!!!");
+    }
+
+    private static int exportCategoryToExcel(XSSFSheet categorySheet,
+                                                Map<String, Double> categoryMap, int rowNum,
+                                                String payer) {
+        double amount = 0;
+        for (Map.Entry<String, Double> mapElement : categoryMap.entrySet()) {
+            XSSFRow bodyRow = categorySheet.createRow(rowNum);
+            bodyRow.createCell(0).setCellValue(mapElement.getKey());
+            bodyRow.createCell(1).setCellValue(mapElement.getValue());
+            amount = amount + mapElement.getValue();
+            rowNum++;
+        }
+        rowNum++;
+        XSSFRow infoRow = categorySheet.createRow(rowNum);
+        infoRow.createCell(0).setCellValue(payer);
+        infoRow.createCell(1).setCellValue(amount);
+        rowNum = rowNum + 3;
+        return rowNum;
+    }
+
+    private static void populateCategoryMap(Map<String, Double> catMap, ExpenseDetails expenseDetails) {
+        if(catMap.get(expenseDetails.getCategory()) == null){
+            catMap.put(expenseDetails.getCategory(), expenseDetails.getAmount());
+        }else {
+            double updatedAmount = expenseDetails.getAmount() + catMap.get(expenseDetails.getCategory());
+            catMap.put(expenseDetails.getCategory(),updatedAmount);
+        }
+    }
+
+    private static void setCategoryDetails(ExpenseDetails expenseDetails) {
+        if(expenseDetails.getCategory().equalsIgnoreCase(Placeholders.HOUSEHOLD_SP_CAT))
+            expenseDetails.setCategory("Maintenance");
+
+        if(expenseDetails.getCategory().equalsIgnoreCase(Placeholders.MEDICAL_EXP))
+            expenseDetails.setCategory("Health");
+
+        if(expenseDetails.getCategory().equalsIgnoreCase(Placeholders.HEAT_GAS))
+            expenseDetails.setCategory("Grocery");
+
+        if(expenseDetails.getCategory().equalsIgnoreCase(Placeholders.TRANSPORT)
+            || expenseDetails.getCategory().equalsIgnoreCase(Placeholders.GIFTS))
+            expenseDetails.setCategory("GIFTS & ENTERTAINMENT");
+
+        if(Arrays.stream(Placeholders.MANDATORY_CAT)
+                .anyMatch(
+                        category->  expenseDetails.getCategory().equalsIgnoreCase(category)))
+            expenseDetails.setCategory("Mandatory");
     }
 
 

@@ -1,6 +1,7 @@
 package com.road2glory.splitwiseexpensetrackingapp.controllers;
 
 import com.road2glory.splitwiseexpensetrackingapp.constants.DateFormatPattern;
+import com.road2glory.splitwiseexpensetrackingapp.constants.Placeholders;
 import com.road2glory.splitwiseexpensetrackingapp.exceptions.DateTimeConvertionException;
 import com.road2glory.splitwiseexpensetrackingapp.models.ExpenseDetails;
 import com.road2glory.splitwiseexpensetrackingapp.models.User;
@@ -66,8 +67,6 @@ public class SplitwiseMainController {
 
         HttpHeaders headers=new HttpHeaders();
         headers.setBearerAuth(userToken);
-
-
 
 
         HttpEntity<String> entity=new HttpEntity<String>(headers);

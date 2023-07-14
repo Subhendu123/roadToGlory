@@ -153,7 +153,7 @@ public class GmailService {
         // format splitwise data here
         ExcelUtility.convertSplitwiseToExcel(userToCheck, workbook);
 
-        OutputStream fileOut = new FileOutputStream("BankStatement.xlsx");
+        OutputStream fileOut = new FileOutputStream("BankStatement_"+LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE)+".xlsx");
         workbook.write(fileOut);
 
     }

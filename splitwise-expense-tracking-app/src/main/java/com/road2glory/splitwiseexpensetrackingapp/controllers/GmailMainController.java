@@ -8,16 +8,14 @@ import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.road2glory.splitwiseexpensetrackingapp.constants.GmailApiConstants;
 import com.road2glory.splitwiseexpensetrackingapp.models.GmailMessage;
 import com.road2glory.splitwiseexpensetrackingapp.models.GmailMessageDetails;
+import com.road2glory.splitwiseexpensetrackingapp.models.ResponseMessage;
 import com.road2glory.splitwiseexpensetrackingapp.models.User;
 import com.road2glory.splitwiseexpensetrackingapp.services.GmailService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONException;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -48,8 +46,53 @@ public class GmailMainController {
         return ResponseEntity.ok("Hello world");
     }
 
+    @RequestMapping(value = "/export-data", method = RequestMethod.GET)
+    public ResponseMessage exportDataFromSplitwiseAndMail(
+            @RequestParam("user_id") String emailId,
+            @RequestParam("filter_criteria") String criteria,
+            @RequestParam(value = "maxResults", required = false, defaultValue = "100") int maxResults,
+            @RequestHeader(value = "Authorization") String authToken
+    ) {
+        boolean isError = false;
+        List<GmailMessageDetails> gamilMsgList = null;
+        try {
+            ResponseEntity<List<GmailMessageDetails>> responseEntity = getEmailsForUser(emailId, criteria, maxResults, authToken);
+            gamilMsgList = responseEntity.getBody();
+        }
+        catch (RuntimeException re){
+            isError = true;
+            LOG.error("The Error occurred during processing of the EMail Service "+re.getMessage());
+            re.printStackTrace();
+        }
+
+
+        // call splitwise ctrl for collecting splitwise data
+        ResponseEntity<List<User>> responseEntityUser = null;
+        try {
+            responseEntityUser = splitwiseMainController.getExpensesForCurrentUser(40913687,"2023-06-01","2023-07-05",
+                    100);
+        } catch (JSONException e) {
+            if(isError){
+                return new ResponseMessage("Error while fetching data from Splitwise or Gmail API. Contact System Administrator.", HttpStatus.BAD_REQUEST.value());
+            }
+            LOG.error("The exception is occurred due to "+e);
+        }
+        List<User> userDetailsList = responseEntityUser.getBody();
+
+        try {
+            gmailService.exportToExcel(gamilMsgList, userDetailsList);
+        } catch (IOException e) {
+            LOG.error("The export to excel is failed with error "+e);
+            e.printStackTrace();
+            return new ResponseMessage("Error occured during process of Export to Excel.", HttpStatus.FORBIDDEN.value());
+            //row new RuntimeException(e);
+        }
+        return new ResponseMessage("Successfully Written", HttpStatus.CREATED.value());
+    }
+
+
     @RequestMapping(value = "/getMails", method = RequestMethod.GET)
-    public ResponseEntity getEmailsForUser(
+    public ResponseEntity<List<GmailMessageDetails>> getEmailsForUser(
             @RequestParam("user_id") String emailId,
             @RequestParam("filter_criteria") String criteria,
             @RequestParam(value = "maxResults", required = false, defaultValue = "100") int maxResults,
@@ -86,27 +129,6 @@ public class GmailMainController {
                     gmailAPIManagerController.getMailDetails(gmailMessage.getId(),authToken, emailId);
             gmailMessageDetailsList.add(gmailMessageDetails);
         }
-
-        // call splitwise ctrl for collecting splitwise data
-        ResponseEntity<List<User>> responseEntity = null;
-        try {
-            responseEntity = splitwiseMainController.getExpensesForCurrentUser(40913687,"2023-06-01","2023-07-05",
-                    100);
-        } catch (JSONException e) {
-            LOG.error("The exception is occurred due to "+e);
-            throw new RuntimeException(e);
-        }
-        List<User> userDetailsList = responseEntity.getBody();
-
-        try {
-            gmailService.exportToExcel(gmailMessageDetailsList, userDetailsList);
-        } catch (IOException e) {
-            LOG.error("The export to excel is failed with error "+e);
-            e.printStackTrace();
-            //row new RuntimeException(e);
-
-        }
-
         return ResponseEntity.ok(gmailMessageDetailsList);
     }
 
