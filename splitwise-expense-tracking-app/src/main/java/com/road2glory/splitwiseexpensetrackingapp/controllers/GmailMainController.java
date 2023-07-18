@@ -47,17 +47,20 @@ public class GmailMainController {
     }
 
     @RequestMapping(value = "/export-data", method = RequestMethod.GET)
-    public ResponseMessage exportDataFromSplitwiseAndMail(
+    public ResponseEntity<ResponseMessage> exportDataFromSplitwiseAndMail(
             @RequestParam("user_id") String emailId,
             @RequestParam("filter_criteria") String criteria,
             @RequestParam(value = "maxResults", required = false, defaultValue = "100") int maxResults,
-            @RequestHeader(value = "Authorization") String authToken
+            @RequestParam("group_id") int groupId,
+            @RequestParam("dated_after") String datedAfter,
+            @RequestParam("dated_before") String datedBefore,
+            @RequestHeader(value = "Authorization" , required = true) String authToken
     ) {
         boolean isError = false;
-        List<GmailMessageDetails> gamilMsgList = null;
+        List<GmailMessageDetails> gmailMessageDetailsList = null;
         try {
             ResponseEntity<List<GmailMessageDetails>> responseEntity = getEmailsForUser(emailId, criteria, maxResults, authToken);
-            gamilMsgList = responseEntity.getBody();
+            gmailMessageDetailsList = responseEntity.getBody();
         }
         catch (RuntimeException re){
             isError = true;
@@ -69,25 +72,25 @@ public class GmailMainController {
         // call splitwise ctrl for collecting splitwise data
         ResponseEntity<List<User>> responseEntityUser = null;
         try {
-            responseEntityUser = splitwiseMainController.getExpensesForCurrentUser(40913687,"2023-06-01","2023-07-05",
+            responseEntityUser = splitwiseMainController.getExpensesForCurrentUser(groupId,datedAfter,datedBefore,
                     100);
         } catch (JSONException e) {
             if(isError){
-                return new ResponseMessage("Error while fetching data from Splitwise or Gmail API. Contact System Administrator.", HttpStatus.BAD_REQUEST.value());
+                return ResponseEntity.badRequest().body(new ResponseMessage("Error while fetching data from Splitwise or Gmail API. Contact System Administrator.", HttpStatus.BAD_REQUEST.value()));
             }
             LOG.error("The exception is occurred due to "+e);
         }
         List<User> userDetailsList = responseEntityUser.getBody();
 
         try {
-            gmailService.exportToExcel(gamilMsgList, userDetailsList);
+            gmailService.exportToExcel(gmailMessageDetailsList, userDetailsList);
         } catch (IOException e) {
             LOG.error("The export to excel is failed with error "+e);
             e.printStackTrace();
-            return new ResponseMessage("Error occured during process of Export to Excel.", HttpStatus.FORBIDDEN.value());
+           return ResponseEntity.internalServerError().body(new ResponseMessage("Error occured during process of Export to Excel.", HttpStatus.FORBIDDEN.value()));
             //row new RuntimeException(e);
         }
-        return new ResponseMessage("Successfully Written", HttpStatus.CREATED.value());
+        return ResponseEntity.accepted().body(new ResponseMessage("Successfully Written", HttpStatus.OK.value()));
     }
 
 
