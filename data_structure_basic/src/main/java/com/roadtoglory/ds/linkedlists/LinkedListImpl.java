@@ -11,7 +11,7 @@ package com.roadtoglory.ds.linkedlists;
 */public class LinkedListImpl implements LinkedList
 {
 
-    private static Node head;
+    private Node head;
     private Node tail;
     private int length;
 
@@ -52,6 +52,20 @@ package com.roadtoglory.ds.linkedlists;
         }
     }
 
+    /**
+     * @param value
+     */
+    @Override
+    public void prepend(int value)
+    {
+
+        Node newHead = new Node(value);
+        newHead.next= this.head;
+        this.head = newHead;
+        this.length++;
+
+    }
+
     public void addWithIndex(int value, int index){
         System.out.println("Adding "+value+" to the index no. "+index);
 
@@ -63,6 +77,7 @@ package com.roadtoglory.ds.linkedlists;
                 Node tNode = tempNode.next;
                 newNode.next = tNode;
                 tempNode.next = newNode;
+                this.length++;
                 break;
             }
             tempIndex++;
@@ -74,28 +89,29 @@ package com.roadtoglory.ds.linkedlists;
      * @return
      */
     @Override
-    public int removeFirst()
+    public Node removeFirst()
     {
         Node head = this.head;
         this.head = this.head.next;
-        int res = head.value;
-        head = null;
-        return res;
+        this.length--;
+        head.next=null;
+        return head;
     }
 
     /**
      * @return
      */
     @Override
-    public int removeLast()
+    public Node removeLast()
     {
         Node head = this.head;
-        int res = -1;
+        Node res = null;
         while (head.next != null){
             if(head.next == this.tail){
-                res = this.tail.value;
-                this.tail = null;
+                res =  this.tail;
                 head.next = null;
+                this.tail = head;
+                this.length--;
                 break;
             }
             head = head.next;
@@ -112,7 +128,39 @@ package com.roadtoglory.ds.linkedlists;
     @Override
     public int removeIndexWise(int index)
     {
-        return 0;
+        int retCode = -1;
+        Node itr = this.head;
+        if(index > this.length){
+            throw new RuntimeException("Please check the passed index "+index+" which is more than the total length "+this.length);
+        }
+        else if(index < 1){
+            throw new RuntimeException("Please select a correct input");
+        }
+        else {
+            int itrCount = 1;
+            while (itr != null){
+                if(index==1){
+                    removeFirst();
+                    break;
+                } else if (index == this.length)
+                {
+                    removeLast();
+                    break;
+                }
+                else if(itrCount == index-1){
+                    Node tempDlt = itr.next;
+                    itr.next=tempDlt.next;
+//                    tempDlt = null;
+                    retCode = 1;
+                    this.length--;
+                    break;
+                }
+                itr = itr.next;
+                itrCount++;
+            }
+        }
+        return retCode;
+
     }
 
     /**
@@ -132,6 +180,33 @@ package com.roadtoglory.ds.linkedlists;
     @Override
     public void substitute(int index1, int index2)
     {
+
+    }
+
+    /**
+     *
+     */
+    @Override
+    public void reverse()
+    {
+        if(this.head == null || this.tail == null || this.length == 0)
+            System.out.println("Invalid! Please create a linkedlist before calling this method");
+        else {
+            Node temp = this.head;
+            this.head = this.tail;
+            this.tail = temp;
+            Node after = temp.next;
+            Node before = null;
+            while (after != null){
+
+                after = temp.next;
+                temp.next = before;
+                before = temp;
+                temp = after;
+            }
+            System.out.println("The reverse is");
+            printList();
+        }
 
     }
 

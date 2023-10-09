@@ -13,12 +13,22 @@ package com.roadtoglory.ds.linkedlists;
 public class Node
 {
 
-    Node next;
-    int value;
+    public Node next;
+    public int value;
 
     public Node(int value)
     {
 //        this.next = next;
         this.value = value;
+    }
+
+    public Node getNext()
+    {
+        return next;
+    }
+
+    public int getValue()
+    {
+        return value;
     }
 }

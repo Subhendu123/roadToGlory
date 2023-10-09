@@ -13,13 +13,16 @@ package com.roadtoglory.ds.linkedlists;
     public void printList();
     public void getLength();
     public void append(int value);
+    public void prepend(int value);
+
     public void addWithIndex(int value, int index);
 
-    public int removeFirst();
-    public int removeLast();
+    public Node removeFirst();
+    public Node removeLast();
     public int removeIndexWise(int index);
     public void replaceIndex(int index, int value);
     public void substitute(int index1, int index2);
+    public void reverse();
 
 
 }

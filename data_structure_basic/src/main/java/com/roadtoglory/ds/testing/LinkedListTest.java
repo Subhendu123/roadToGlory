@@ -31,11 +31,21 @@ public class LinkedListTest
         linkedListImpl.addWithIndex(38,4);
         linkedListImpl.printList();
 
-        linkedListImpl.removeFirst();
+        System.out.println(linkedListImpl.removeFirst().getValue());
+
+        System.out.println(linkedListImpl.removeLast().value);
+        System.out.println(linkedListImpl.removeLast().value);
+
+        linkedListImpl.prepend(11);
+        linkedListImpl.prepend(01);
         linkedListImpl.printList();
 
-        linkedListImpl.removeLast();
-        linkedListImpl.printList();
+//        linkedListImpl.removeIndexWise(4);
+//        linkedListImpl.printList();
+//        linkedListImpl.removeIndexWise(2);
+//        linkedListImpl.printList();
+
+        linkedListImpl.reverse();
 
         linkedListImpl.getLength();
     }
