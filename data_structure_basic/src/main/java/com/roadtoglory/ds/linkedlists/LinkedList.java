@@ -17,8 +17,8 @@ package com.roadtoglory.ds.linkedlists;
 
     public void addWithIndex(int value, int index);
 
-    public Node removeFirst();
-    public Node removeLast();
+    public Object removeFirst();
+    public Object removeLast();
     public int removeIndexWise(int index);
     public void replaceIndex(int index, int value);
     public void substitute(int index1, int index2);

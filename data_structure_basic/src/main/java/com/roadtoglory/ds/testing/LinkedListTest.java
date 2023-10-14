@@ -19,17 +19,11 @@ public class LinkedListTest
     public static void main(String[] args)
     {
         LinkedListImpl linkedListImpl = new LinkedListImpl(10);
-//        linkedListImpl.printList();
         linkedListImpl.append(20);
-//        linkedListImpl.printList();
         linkedListImpl.append(30);
-//        linkedListImpl.printList();
         linkedListImpl.append(40);
-//        linkedListImpl.printList();
         linkedListImpl.append(50);
-//        linkedListImpl.printList();
         linkedListImpl.addWithIndex(38,4);
-        linkedListImpl.printList();
 
         System.out.println(linkedListImpl.removeFirst().getValue());
 
@@ -48,5 +42,18 @@ public class LinkedListTest
         linkedListImpl.reverse();
 
         linkedListImpl.getLength();
+
+        System.out.println("Linked List before sending ---------------");
+        LinkedListImpl linkedList = new LinkedListImpl(3);
+        linkedList.append(8);
+        linkedList.append(5);
+        linkedList.append(10);
+        linkedList.append(2);
+        linkedList.append(1);
+        linkedList.printList();
+        linkedList.partitionList(5);
+
+
+
     }
 }

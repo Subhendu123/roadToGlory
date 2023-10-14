@@ -1,5 +1,8 @@
 package com.roadtoglory.ds.linkedlists;
 
+import java.util.HashSet;
+
+
 /*
 *
 *
@@ -25,6 +28,15 @@ package com.roadtoglory.ds.linkedlists;
         else {
             append(value);
         }
+    }
+
+
+    public Node getHead() {
+        return head;
+    }
+
+    public Node getTail() {
+        return tail;
     }
 
     public void printList(){
@@ -198,7 +210,6 @@ package com.roadtoglory.ds.linkedlists;
             Node after = temp.next;
             Node before = null;
             while (after != null){
-
                 after = temp.next;
                 temp.next = before;
                 before = temp;
@@ -210,5 +221,121 @@ package com.roadtoglory.ds.linkedlists;
 
     }
 
+
+    public boolean hasLoop()
+    {
+
+        boolean isLoopPresent = false;
+        Node temp = this.head;
+        int index = 1;
+        while(index < this.length && temp != null){
+
+            Node itr = temp.next;
+            int localndex = 1;
+            while(localndex < this.length && itr != null){
+                if(itr.next == temp){
+                    isLoopPresent = true;
+                    break;
+                }
+                itr = itr.next;
+                localndex++;
+            }
+
+            if(isLoopPresent)
+                break;
+            temp = temp.next;
+            index++;
+
+        }
+
+        return isLoopPresent;
+
+    }
+
+    public void partitionList(int x){
+
+        Node smallNode = null;
+        Node largeNode = null;
+        Node largeHead = null;
+        if(this.length < 2)
+            return;
+
+        Node itr = this.head;
+        while(itr != null){
+            if(itr.value < x){
+                if(smallNode == null)
+                {
+                    smallNode = itr;
+                    smallNode = smallNode.next;
+                }
+                else
+                {
+                   smallNode.next = itr;
+                   smallNode = smallNode.next;
+                }
+            }
+            else
+            {
+                if(largeNode == null)
+                {
+                    largeNode = itr;
+                    largeHead = largeNode;
+                    largeNode = largeNode.next;
+
+                }
+                else{
+                    largeNode.next = itr;
+                    largeNode = largeNode.next;
+                }
+            }
+            itr = itr.next;
+        }
+        if(smallNode != null){
+            Node xNode = new Node(x);
+            smallNode.next = xNode;
+            smallNode = smallNode.next;
+            smallNode.next = largeHead;
+            this.head = smallNode;
+        }
+        printList();
+    }
+
+
+    public void removeDuplicates() {
+        // Your implementation goes here
+
+        if(this.head == null)
+            return;
+
+        Node next = this.head.next;
+        Node prev = this.head;
+        HashSet<Integer> hashSetNode = new HashSet<>();
+        hashSetNode.add(this.head.value);
+        boolean isDuplicatePresent = false;
+        while(next != null){
+
+            if(hashSetNode.contains(next.value)){
+                System.out.println("prev val "+prev.value);
+                prev.next = next.next;
+                isDuplicatePresent = true;
+            }
+            else {
+                System.out.println("prev val as hashnode "+prev.value);
+
+                hashSetNode.add(prev.value);
+            }
+            prev = prev.next;
+            next = next.next;
+        }
+        if(isDuplicatePresent && hashSetNode.size() > 1)
+            this.head = prev;
+
+        Node tmpHd = prev;
+        System.out.println("The new list is ");
+        while (tmpHd != null){
+            System.out.println(tmpHd+" -> ");
+        }
+
+    }
 
 }
