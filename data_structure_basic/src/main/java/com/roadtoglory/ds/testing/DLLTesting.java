@@ -24,5 +24,13 @@ import com.roadtoglory.ds.linkedlists.DoublyLinkedListImpl;
         doublyLinkedList.prepend(2);
         doublyLinkedList.removeLast();
         doublyLinkedList.printList();
+
+        doublyLinkedList.addWithIndex(44, 4);
+        System.out.println("\n Add with index is called!");
+        doublyLinkedList.printList();
+
+        doublyLinkedList.reverse();
+
+
     }
 }

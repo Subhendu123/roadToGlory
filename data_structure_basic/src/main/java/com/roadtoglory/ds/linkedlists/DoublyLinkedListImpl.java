@@ -33,15 +33,6 @@ public class DoublyLinkedListImpl implements LinkedList
             this.value = value;
         }
 
-        @Override
-        public String toString()
-        {
-            return "Node{" +
-                    "value=" + value +
-                    ", next=" + next +
-                    ", prev=" + prev +
-                    '}';
-        }
     }
 
     /**
@@ -115,7 +106,24 @@ public class DoublyLinkedListImpl implements LinkedList
     @Override
     public void addWithIndex(int value, int index)
     {
-        Node itrNode = this.head;
+        if(index <= this.length){
+            Node itrNode = this.head;
+            int counter = 1;
+            while (itrNode != null){
+                if(index == counter){
+                    Node temp = new Node(value);
+                    Node prev = itrNode.prev;
+                    prev.next = temp;
+                    temp.prev = prev;
+                    temp.next = itrNode;
+                    itrNode.prev = temp;
+                    this.length++;
+                    break;
+                }
+                itrNode = itrNode.next;
+                counter++;
+            }
+        }
     }
 
     /**
@@ -124,7 +132,15 @@ public class DoublyLinkedListImpl implements LinkedList
     @Override
     public Node removeFirst()
     {
-        return null;
+        Node removedNode = null;
+        if(this.tail != null){
+            removedNode = this.tail;
+            this.tail = this.tail.prev;
+            this.tail.next = null;
+            this.length--;
+        }
+        System.out.println("The removed node is "+removedNode.toString());
+        return removedNode;
     }
 
     /**
@@ -138,6 +154,7 @@ public class DoublyLinkedListImpl implements LinkedList
             removedNode = this.tail;
             this.tail = this.tail.prev;
             this.tail.next = null;
+            this.length--;
         }
         System.out.println("The removed node is "+removedNode.toString());
         return removedNode;
@@ -180,6 +197,25 @@ public class DoublyLinkedListImpl implements LinkedList
     @Override
     public void reverse()
     {
+        if(this.head == null || this.length == 1)
+            return;
+        Node tail = this.tail;
+        Node tempContainer = null;
+        Node tempHead = tail;
+        while (tail != null){
+            tempContainer = tail;
+            Node prev = tail.prev;
+            tempContainer.next = prev;
+            if(prev != null)
+                prev.next = tempContainer;
+
+            tail = tail.prev;
+        }
+        this.tail = this.head;
+        this.head = tempHead;
+        System.out.println();
+        System.out.println("The linked list after being reversed ");
+        printList();
 
     }
 }
