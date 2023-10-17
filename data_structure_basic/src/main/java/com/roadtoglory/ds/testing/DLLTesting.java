@@ -29,6 +29,7 @@ import com.roadtoglory.ds.linkedlists.DoublyLinkedListImpl;
         System.out.println("\n Add with index is called!");
         doublyLinkedList.printList();
 
+        System.out.println("\n Reverse:");
         doublyLinkedList.reverse();
 
 
