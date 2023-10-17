@@ -10,30 +10,29 @@ package com.roadtoglory.ds.stackq;
 *
 */public class Stack
 {
-    public Node base;
     public Node top;
     public int length;
 
     public Stack (int value)
     {
-        if (this.base == null)
+        if (this.top == null)
         {
-            this.base = new Node(value);
-            this.top = this.base;
+            this.top = new Node(value);
             this.length++;
         }
     }
 
     public int push (int value)
     {
-        if (this.base == null)
+        if (this.top == null)
         {
+            System.out.println("Please create a stack before pushing");
             return -1;
         } else
         {
-            Node node = new Node(value);
-            this.top.next = node;
-            this.top = this.top.next;
+            Node topNode = new Node(value);
+            topNode.next = this.top;
+            this.top = topNode;
             this.length++;
             return this.length;
         }
@@ -41,35 +40,29 @@ package com.roadtoglory.ds.stackq;
 
     public int pop ()
     {
-        if (this.base == null)
+        if (this.top == null)
         {
             return -1;
         } else
         {
-            Node tempItr = this.base;
-
-            while (tempItr != null)
-            {
-                if (tempItr.next == this.top)
-                {
-                    tempItr.next = null;
-                    this.top = tempItr;
-                    this.length--;
-                    break;
-                }
-                tempItr = tempItr.next;
-            }
+            this.top = this.top.next;
             return this.length;
         }
     }
 
     public void printStack ()
     {
-        Node node = this.base;
+        Node node = this.top;
+        if (node == null)
+        {
+            System.out.println("The stack is empty!");
+        }
         while (node != null)
         {
-            System.out.println("|");
-            System.out.println(node.value);
+            System.out.print("|-------|\n");
+
+            System.out.println("\t" + node.value);
+            System.out.println("|-------|");
             node = node.next;
         }
     }

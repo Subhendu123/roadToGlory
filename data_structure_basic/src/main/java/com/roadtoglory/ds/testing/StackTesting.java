@@ -16,11 +16,24 @@ import com.roadtoglory.ds.stackq.Stack;
     public static void main (String[] args)
     {
         Stack stack = new Stack(10);
-        System.out.println(stack.push(20));
-        System.out.println(stack.push(30));
-        System.out.println(stack.push(40));
+        stack.push(20);
+        stack.push(30);
+        stack.push(40);
         stack.push(50);
-        System.out.println(stack.pop());
+        stack.printStack();
+        System.out.println("-------------------------------------");
+        System.out.println();
+        stack.pop();
+        stack.pop();
+
+        stack.pop();
+        stack.pop();
+        stack.pop();
+        stack.pop();
+        stack.push(44);
+        System.out.println();
+        System.out.println("-------------------------------------");
+        System.out.println();
         stack.printStack();
     }
 }
