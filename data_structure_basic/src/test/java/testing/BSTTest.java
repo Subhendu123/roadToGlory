@@ -1,4 +1,4 @@
-package com.roadtoglory.ds.testing;
+package testing;
 
 import com.roadtoglory.ds.bst.BinaryTree;
 

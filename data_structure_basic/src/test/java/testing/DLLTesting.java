@@ -1,4 +1,4 @@
-package com.roadtoglory.ds.testing;
+package testing;
 
 import com.roadtoglory.ds.linkedlists.DoublyLinkedListImpl;
 
@@ -13,7 +13,7 @@ import com.roadtoglory.ds.linkedlists.DoublyLinkedListImpl;
 *
 */public class DLLTesting
 {
-    public static void main(String[] args)
+    public static void main (String[] args)
     {
         DoublyLinkedListImpl doublyLinkedList = new DoublyLinkedListImpl(10);
         doublyLinkedList.append(20);

@@ -1,4 +1,4 @@
-package com.roadtoglory.ds.testing;
+package testing;
 
 
 import com.roadtoglory.ds.linkedlists.LinkedListImpl;
@@ -16,14 +16,14 @@ import com.roadtoglory.ds.linkedlists.LinkedListImpl;
 public class LinkedListTest
 {
 
-    public static void main(String[] args)
+    public static void main (String[] args)
     {
         LinkedListImpl linkedListImpl = new LinkedListImpl(10);
         linkedListImpl.append(20);
         linkedListImpl.append(30);
         linkedListImpl.append(40);
         linkedListImpl.append(50);
-        linkedListImpl.addWithIndex(38,4);
+        linkedListImpl.addWithIndex(38, 4);
 
         System.out.println(linkedListImpl.removeFirst().getValue());
 
@@ -34,10 +34,10 @@ public class LinkedListTest
         linkedListImpl.prepend(01);
         linkedListImpl.printList();
 
-//        linkedListImpl.removeIndexWise(4);
-//        linkedListImpl.printList();
-//        linkedListImpl.removeIndexWise(2);
-//        linkedListImpl.printList();
+        //        linkedListImpl.removeIndexWise(4);
+        //        linkedListImpl.printList();
+        //        linkedListImpl.removeIndexWise(2);
+        //        linkedListImpl.printList();
 
         linkedListImpl.reverse();
 
@@ -52,7 +52,6 @@ public class LinkedListTest
         linkedList.append(1);
         linkedList.printList();
         linkedList.partitionList(5);
-
 
 
     }
