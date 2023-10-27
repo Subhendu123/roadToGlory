@@ -197,25 +197,33 @@ public class DoublyLinkedListImpl implements LinkedList
     @Override
     public void reverse()
     {
-        if(this.head == null || this.length == 1)
+        if(this.head == null || this.tail == null || this.length == 0)
             return;
-        Node tail = this.tail;
-        Node tempContainer = null;
-        Node tempHead = tail;
-        while (tail != null){
-            tempContainer = tail;
-            Node prev = tail.prev;
-            tempContainer.next = prev;
-            if(prev != null)
-                prev.next = tempContainer;
 
-            tail = tail.prev;
+        Node reverseNode = null;
+        Node newHead = null;
+        Node revItr = this.tail;
+        while(revItr != null){
+            if(reverseNode == null){
+                reverseNode = revItr;
+                Node prev = revItr.prev;
+                reverseNode.prev = null;
+                reverseNode.next = prev;
+                prev.prev = reverseNode;
+                if(newHead == null)
+                    newHead = reverseNode;
+
+            }else{
+                reverseNode = revItr;
+                Node prev = revItr.prev;
+                reverseNode.next = prev;
+                if(prev != null)
+                    prev.prev = reverseNode;
+            }
+
+            reverseNode = reverseNode.next;
+            revItr = revItr.prev;
         }
-        this.tail = this.head;
-        this.head = tempHead;
-        System.out.println();
-        System.out.println("The linked list after being reversed ");
-        printList();
-
+        this.head = newHead;
     }
 }

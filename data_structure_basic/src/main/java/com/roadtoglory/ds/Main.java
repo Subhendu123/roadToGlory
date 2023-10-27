@@ -1,15 +1,23 @@
 package com.roadtoglory.ds;
 
+import com.roadtoglory.ds.sorting.ArrayUtility;
+import com.roadtoglory.ds.sorting.MergeSort;
+import com.roadtoglory.ds.sorting.Sort;
+
 import java.util.Random;
 
-public class Main {
-    public static void main(String[] args) {
+
+public class Main
+{
+    public static void main (String[] args)
+    {
 
         Sort sortingKlass = new MergeSort();
 
         int[] input = new int[100000000];
         Random random = new Random();
-        for(int i=0; i<input.length; i++){
+        for (int i = 0; i < input.length; i++)
+        {
             input[i] = random.nextInt();
         }
         System.out.println("The Input array before sorting is ");

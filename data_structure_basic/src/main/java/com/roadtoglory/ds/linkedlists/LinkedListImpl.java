@@ -18,48 +18,60 @@ import java.util.HashSet;
     private Node tail;
     private int length;
 
-    public LinkedListImpl(int value){
+    public LinkedListImpl (int value)
+    {
 
-        if(this.head == null){
+        if (this.head == null)
+        {
             this.head = new Node(value);
             this.tail = this.head;
             this.length = 1;
         }
-        else {
+        else
+        {
             append(value);
         }
     }
 
 
-    public Node getHead() {
+    public Node getHead ()
+    {
         return head;
     }
 
-    public Node getTail() {
+    public Node getTail ()
+    {
         return tail;
     }
 
-    public void printList(){
+    public void printList ()
+    {
         System.out.println("The print list is called!");
         Node tmp = this.head;
-        while (tmp != null){
-            System.out.print(tmp.value +" --> ");
+        while (tmp != null)
+        {
+            System.out.print(tmp.value + " --> ");
             tmp = tmp.next;
         }
         System.out.println();
     }
 
-    public void getLength(){
-        System.out.println("Length "+this.length);
+    public void getLength ()
+    {
+        System.out.println("Length " + this.length);
     }
-    public void append(int value){
+
+    public void append (int value)
+    {
         Node newNode = new Node(value);
-        if(tail != null){
+        if (tail != null)
+        {
             tail.next = newNode;
             tail = tail.next;
             this.length++;
         }
-        else {
+        else
+        {
             System.out.println("Validation Failed! Please create a linkedlist first!");
         }
     }
@@ -68,23 +80,26 @@ import java.util.HashSet;
      * @param value
      */
     @Override
-    public void prepend(int value)
+    public void prepend (int value)
     {
 
         Node newHead = new Node(value);
-        newHead.next= this.head;
+        newHead.next = this.head;
         this.head = newHead;
         this.length++;
 
     }
 
-    public void addWithIndex(int value, int index){
-        System.out.println("Adding "+value+" to the index no. "+index);
+    public void addWithIndex (int value, int index)
+    {
+        System.out.println("Adding " + value + " to the index no. " + index);
 
         Node tempNode = this.head;
         int tempIndex = 1;
-        while (tempNode != null){
-            if(tempIndex == index-1){
+        while (tempNode != null)
+        {
+            if (tempIndex == index - 1)
+            {
                 Node newNode = new Node(value);
                 Node tNode = tempNode.next;
                 newNode.next = tNode;
@@ -101,12 +116,12 @@ import java.util.HashSet;
      * @return
      */
     @Override
-    public Node removeFirst()
+    public Node removeFirst ()
     {
         Node head = this.head;
         this.head = this.head.next;
         this.length--;
-        head.next=null;
+        head.next = null;
         return head;
     }
 
@@ -114,13 +129,15 @@ import java.util.HashSet;
      * @return
      */
     @Override
-    public Node removeLast()
+    public Node removeLast ()
     {
         Node head = this.head;
         Node res = null;
-        while (head.next != null){
-            if(head.next == this.tail){
-                res =  this.tail;
+        while (head.next != null)
+        {
+            if (head.next == this.tail)
+            {
+                res = this.tail;
                 head.next = null;
                 this.tail = head;
                 this.length--;
@@ -138,31 +155,38 @@ import java.util.HashSet;
      * @return
      */
     @Override
-    public int removeIndexWise(int index)
+    public int removeIndexWise (int index)
     {
         int retCode = -1;
         Node itr = this.head;
-        if(index > this.length){
-            throw new RuntimeException("Please check the passed index "+index+" which is more than the total length "+this.length);
+        if (index > this.length)
+        {
+            throw new RuntimeException("Please check the passed index " + index + " which is more than the total length " + this.length);
         }
-        else if(index < 1){
+        else if (index < 1)
+        {
             throw new RuntimeException("Please select a correct input");
         }
-        else {
+        else
+        {
             int itrCount = 1;
-            while (itr != null){
-                if(index==1){
+            while (itr != null)
+            {
+                if (index == 1)
+                {
                     removeFirst();
                     break;
-                } else if (index == this.length)
+                }
+                else if (index == this.length)
                 {
                     removeLast();
                     break;
                 }
-                else if(itrCount == index-1){
+                else if (itrCount == index - 1)
+                {
                     Node tempDlt = itr.next;
-                    itr.next=tempDlt.next;
-//                    tempDlt = null;
+                    itr.next = tempDlt.next;
+                    //                    tempDlt = null;
                     retCode = 1;
                     this.length--;
                     break;
@@ -180,7 +204,7 @@ import java.util.HashSet;
      * @param value
      */
     @Override
-    public void replaceIndex(int index, int value)
+    public void replaceIndex (int index, int value)
     {
 
     }
@@ -190,7 +214,7 @@ import java.util.HashSet;
      * @param index2
      */
     @Override
-    public void substitute(int index1, int index2)
+    public void substitute (int index1, int index2)
     {
 
     }
@@ -199,17 +223,19 @@ import java.util.HashSet;
      *
      */
     @Override
-    public void reverse()
+    public void reverse ()
     {
-        if(this.head == null || this.tail == null || this.length == 0)
-            System.out.println("Invalid! Please create a linkedlist before calling this method");
-        else {
+        if (this.head == null || this.tail == null || this.length == 0)
+        {System.out.println("Invalid! Please create a linkedlist before calling this method");}
+        else
+        {
             Node temp = this.head;
             this.head = this.tail;
             this.tail = temp;
             Node after = temp.next;
             Node before = null;
-            while (after != null){
+            while (after != null)
+            {
                 after = temp.next;
                 temp.next = before;
                 before = temp;
@@ -222,18 +248,21 @@ import java.util.HashSet;
     }
 
 
-    public boolean hasLoop()
+    public boolean hasLoop ()
     {
 
         boolean isLoopPresent = false;
         Node temp = this.head;
         int index = 1;
-        while(index < this.length && temp != null){
+        while (index < this.length && temp != null)
+        {
 
             Node itr = temp.next;
             int localndex = 1;
-            while(localndex < this.length && itr != null){
-                if(itr.next == temp){
+            while (localndex < this.length && itr != null)
+            {
+                if (itr.next == temp)
+                {
                     isLoopPresent = true;
                     break;
                 }
@@ -241,8 +270,7 @@ import java.util.HashSet;
                 localndex++;
             }
 
-            if(isLoopPresent)
-                break;
+            if (isLoopPresent) break;
             temp = temp.next;
             index++;
 
@@ -252,45 +280,49 @@ import java.util.HashSet;
 
     }
 
-    public void partitionList(int x){
+    public void partitionList (int x)
+    {
 
         Node smallNode = null;
         Node largeNode = null;
         Node largeHead = null;
-        if(this.length < 2)
-            return;
+        if (this.length < 2) return;
 
         Node itr = this.head;
-        while(itr != null){
-            if(itr.value < x){
-                if(smallNode == null)
+        while (itr != null)
+        {
+            if (itr.value < x)
+            {
+                if (smallNode == null)
                 {
                     smallNode = itr;
                     smallNode = smallNode.next;
                 }
                 else
                 {
-                   smallNode.next = itr;
-                   smallNode = smallNode.next;
+                    smallNode.next = itr;
+                    smallNode = smallNode.next;
                 }
             }
             else
             {
-                if(largeNode == null)
+                if (largeNode == null)
                 {
                     largeNode = itr;
                     largeHead = largeNode;
                     largeNode = largeNode.next;
 
                 }
-                else{
+                else
+                {
                     largeNode.next = itr;
                     largeNode = largeNode.next;
                 }
             }
             itr = itr.next;
         }
-        if(smallNode != null){
+        if (smallNode != null)
+        {
             Node xNode = new Node(x);
             smallNode.next = xNode;
             smallNode = smallNode.next;
@@ -301,41 +333,78 @@ import java.util.HashSet;
     }
 
 
-    public void removeDuplicates() {
+    public void removeDuplicates ()
+    {
         // Your implementation goes here
 
-        if(this.head == null)
-            return;
+        if (this.head == null) return;
 
         Node next = this.head.next;
         Node prev = this.head;
         HashSet<Integer> hashSetNode = new HashSet<>();
         hashSetNode.add(this.head.value);
         boolean isDuplicatePresent = false;
-        while(next != null){
+        while (next != null)
+        {
 
-            if(hashSetNode.contains(next.value)){
-                System.out.println("prev val "+prev.value);
+            if (hashSetNode.contains(next.value))
+            {
+                System.out.println("prev val " + prev.value);
                 prev.next = next.next;
                 isDuplicatePresent = true;
             }
-            else {
-                System.out.println("prev val as hashnode "+prev.value);
+            else
+            {
+                System.out.println("prev val as hashnode " + prev.value);
 
                 hashSetNode.add(prev.value);
             }
             prev = prev.next;
             next = next.next;
         }
-        if(isDuplicatePresent && hashSetNode.size() > 1)
-            this.head = prev;
+        if (isDuplicatePresent && hashSetNode.size() > 1) this.head = prev;
 
         Node tmpHd = prev;
         System.out.println("The new list is ");
-        while (tmpHd != null){
-            System.out.println(tmpHd+" -> ");
+        while (tmpHd != null)
+        {
+            System.out.println(tmpHd + " -> ");
         }
 
+    }
+
+    /* LEETCODE PROBLEM: https://leetcode.com/problems/rotate-list/ */
+    public Node rotateRight (Node head, int k)
+    {
+        Node nextNode = null;
+        Node prev = null;
+        int rotateCnt = 0;
+        while (rotateCnt < k)
+        {
+
+            rotateCnt++;
+            nextNode = head.next;
+            prev = head;
+
+            if (nextNode == null) return head;
+
+            while (nextNode != null)
+            {
+                if (nextNode.next == null)
+                {
+                    nextNode.next = head;
+                    head = nextNode;
+                    prev.next = null;
+
+                    break;
+                }
+                // output= output.next;
+                nextNode = nextNode.next;
+                prev = prev.next;
+            }
+
+        }
+        return head;
     }
 
 }

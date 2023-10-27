@@ -56,6 +56,16 @@ package com.roadtoglory.ds.bst;
         }
     }
 
+    public void bfsTraversal ()
+    {
+        bfsTraversal(this.root);
+    }
+
+    private void bfsTraversal (Node root)
+    {
+
+    }
+
     public void printTree ()
     {
         printTree(this.root);
