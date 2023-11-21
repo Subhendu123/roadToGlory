@@ -1,4 +1,4 @@
-package testing;
+package com.roadtoglory.ds.testing;
 
 
 import com.roadtoglory.ds.linkedlists.LinkedListImpl;

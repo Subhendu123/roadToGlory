@@ -16,13 +16,15 @@ public class Node
     public Node next;
     public int value;
 
-    public Node(int value)
+    public Node (int value)
     {
-//        this.next = next;
+        //        this.next = next;
         this.value = value;
     }
 
-    public int getValue()
+
+
+    public int getValue ()
     {
         return value;
     }

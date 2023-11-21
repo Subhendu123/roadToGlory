@@ -407,4 +407,23 @@ import java.util.HashSet;
         return head;
     }
 
+    //    public Node swapPairs (Node head)
+    //    {
+    //        Node tempn1 = new Node(0);
+    //        Node tempn2 = new Node(0);
+    //        Node result = null;
+    //        Node itr = head;
+    //
+    //        int counter = 0;
+    //
+    //        while (itr != null)
+    //        {
+    //            counter++;
+    //            if (counter % 2 == 0)
+    //            {
+    //
+    //            }
+    //        }
+    //    }
+
 }

@@ -22,5 +22,7 @@ package com.roadtoglory.ds.hashtable;
         hashtable.insert("F", 51);
         hashtable.insert("G", 50);
         hashtable.printTable();
+        Hashtable.Node node = hashtable.search("A", 10);
+        System.out.println("node " + node.key + " : " + node.value);
     }
 }

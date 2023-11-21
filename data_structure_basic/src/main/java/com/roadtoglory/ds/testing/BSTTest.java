@@ -1,4 +1,4 @@
-package testing;
+package com.roadtoglory.ds.testing;
 
 import com.roadtoglory.ds.bst.BinaryTree;
 
@@ -22,7 +22,8 @@ import com.roadtoglory.ds.bst.BinaryTree;
         binaryTree.insert(80);
         binaryTree.insert(90);
         binaryTree.insert(65);
-        binaryTree.insert(55);
+        //        binaryTree.insert(55);
         binaryTree.printTree();
+        binaryTree.bfsTraversal();
     }
 }

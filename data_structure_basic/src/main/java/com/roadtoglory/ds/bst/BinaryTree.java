@@ -1,5 +1,11 @@
 package com.roadtoglory.ds.bst;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+
+
 /*
 *
 *
@@ -63,7 +69,51 @@ package com.roadtoglory.ds.bst;
 
     private void bfsTraversal (Node root)
     {
+        List<Integer> results = new ArrayList<>();
+        Queue<Node> queue = new LinkedList<>();
+        Node itr = root;
+        queue.add(itr);
+        while (!queue.isEmpty())
+        {
+            itr = queue.remove();
+            results.add(itr.value);
+            if (itr.left != null)
+            {
+                queue.add(itr.left);
+            }
+            if (itr.right != null)
+            {
+                queue.add(itr.right);
+            }
+            //            Older approach
+            //            if (itr.left == null && itr.right == null && queue.isEmpty()) break;
+        }
+        System.out.println("The BFS Traversed tree is ");
+        for (Integer out : results)
+        {System.out.print(out + " ");}
 
+    }
+
+    public void preOrderDFS ()
+    {
+        Node currNode = this.root;
+        Queue<Node> queue = new LinkedList<>();
+        List<Integer> results = new ArrayList<>();
+        queue.add(currNode);
+        while (!queue.isEmpty())
+        {
+            currNode = queue.remove();
+            results.add(currNode.value);
+            if (currNode.left != null)
+            {
+                queue.add(currNode.left);
+            }
+
+            else if (currNode.right != null)
+            {
+                queue.add(currNode.right);
+            }
+        }
     }
 
     public void printTree ()
