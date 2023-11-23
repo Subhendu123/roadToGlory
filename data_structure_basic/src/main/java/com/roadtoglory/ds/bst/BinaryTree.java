@@ -1,9 +1,6 @@
 package com.roadtoglory.ds.bst;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 
 /*
@@ -28,6 +25,24 @@ import java.util.Queue;
         {
             System.out.println("Please insert data");
         }
+    }
+
+    private static void addChildNodesToStack (Node currNode, Stack<Node> stack)
+    {
+        if (currNode.right != null)
+        {
+            stack.add(currNode.right);
+        }
+        if (currNode.left != null)
+        {
+            stack.add(currNode.left);
+        }
+    }
+
+    public static void printTraversedBST (List<Integer> results)
+    {
+        for (Integer out : results)
+        {System.out.print(out + " ");}
     }
 
     public void insert (int value)
@@ -88,32 +103,104 @@ import java.util.Queue;
             //            Older approach
             //            if (itr.left == null && itr.right == null && queue.isEmpty()) break;
         }
-        System.out.println("The BFS Traversed tree is ");
-        for (Integer out : results)
-        {System.out.print(out + " ");}
+        printTraversedBST(results);
 
     }
 
     public void preOrderDFS ()
     {
         Node currNode = this.root;
-        Queue<Node> queue = new LinkedList<>();
+        Stack<Node> stack = new Stack<>();
         List<Integer> results = new ArrayList<>();
-        queue.add(currNode);
-        while (!queue.isEmpty())
+        stack.add(currNode);
+
+        while (!stack.isEmpty())
         {
-            currNode = queue.remove();
+            currNode = stack.pop();
             results.add(currNode.value);
+            addChildNodesToStack(currNode, stack);
+        }
+        printTraversedBST(results);
+    }
+
+    public List<Integer> postOrderDFS ()
+    {
+        Node currNode = this.root;
+        Stack<Node> stack = new Stack<>();
+        List<Integer> result = new ArrayList<>();
+        stack.add(currNode);
+        while (!stack.isEmpty())
+        {
+            currNode = stack.lastElement();
+            boolean isChildPresent = false;
+
+            if (currNode.right != null)
+            {
+                if (result.contains(currNode.right.value))
+                {
+                    isChildPresent = true;
+                }
+                else
+                {
+                    stack.add(currNode.right);
+                }
+            }
             if (currNode.left != null)
             {
-                queue.add(currNode.left);
+                if (result.contains(currNode.left.value))
+                {
+                    isChildPresent = true;
+                }
+                else {stack.add(currNode.left);}
             }
-
-            else if (currNode.right != null)
+            if ((currNode.right == null && currNode.left == null) || isChildPresent)
             {
-                queue.add(currNode.right);
+                // time to print
+                currNode = stack.pop();
+                result.add(currNode.value);
             }
         }
+        return result;
+    }
+
+    public List<Integer> inOrderDFS ()
+    {
+        Node currNode = this.root;
+        Stack<Node> nodeStack = new Stack<>();
+        nodeStack.add(currNode);
+        List<Integer> result = new ArrayList<>();
+        while (!nodeStack.isEmpty())
+        {
+            currNode = nodeStack.lastElement();
+            boolean isChildPresent = false;
+            if (currNode.left != null)
+            {
+                if (result.contains(currNode.left.value))
+                {
+                    isChildPresent = true;
+                }
+                else
+                {
+                    nodeStack.add(currNode.left);
+                }
+            }
+            if (currNode.left == null || isChildPresent)
+            {
+                // root node to be printed as left either is written or does not exist
+                currNode = nodeStack.pop();
+                result.add(currNode.value);
+                if (currNode.right != null)
+                {
+                    if (!result.contains(currNode.right.value))
+                    {
+                        nodeStack.add(currNode.right);
+                    }
+                }
+            }
+
+
+        }
+        return result;
     }
 
     public void printTree ()
