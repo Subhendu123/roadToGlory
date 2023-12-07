@@ -1,5 +1,6 @@
-package com.roadtoglory.splitwiseexptracker.dao;
+package com.roadtoglory.splitwiseexptracker.daoImpl;
 
+import com.roadtoglory.splitwiseexptracker.dao.UserDao;
 import com.roadtoglory.splitwiseexptracker.models.User;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;

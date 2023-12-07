@@ -1,7 +1,7 @@
 package com.roadtoglory.splitwiseexptracker.service;
 
 import com.roadtoglory.splitwiseexptracker.models.User;
-import com.roadtoglory.splitwiseexptracker.dao.UserDaoImpl;
+import com.roadtoglory.splitwiseexptracker.daoImpl.UserDaoImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

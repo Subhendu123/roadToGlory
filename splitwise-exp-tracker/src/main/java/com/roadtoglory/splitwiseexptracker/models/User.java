@@ -25,7 +25,7 @@ import java.time.LocalDateTime;
 public class User
 {
     @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @GeneratedValue(strategy = GenerationType.AUTO) - Will be used in case of the seq is created by us
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
