@@ -137,26 +137,6 @@ public class GmailService {
         return gmailMessageDetails;
     }
 
-    public void exportToExcel(List<GmailMessageDetails> gmailMessageDetailsList,
-                              List<User> userDetailsList) throws IOException {
-        LOG.debug("Entering in the exportToExcel Method.... ");
-        XSSFWorkbook workbook = new XSSFWorkbook();
-        XSSFSheet gmailSheet = workbook.createSheet("expense_tracker");
-
-        // Header Code
-
-        ExcelUtility.createAndFetchHeader(gmailSheet);
-
-        ExcelUtility.convertEMailToExcel(gmailMessageDetailsList,gmailSheet);
-
-        User userToCheck = userDetailsList.stream().filter(user -> user.getId() == 6646855L).findFirst().get();
-        // format splitwise data here
-        ExcelUtility.convertSplitwiseToExcel(userToCheck, workbook);
-
-        OutputStream fileOut = new FileOutputStream("BankStatement_"+LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE)+".xlsx");
-        workbook.write(fileOut);
-
-    }
 
 
 

@@ -10,10 +10,13 @@ package com.roadtoglory.splitwiseexptracker.dto;
 *
 */public class ExpenseResponseDto
 {
+
+
     private int userId;
     private int groupId;
     private double totalExpAmount;
     private double totalIndividualShare;
+    private boolean oweStatus;
 
     public int getUserId ()
     {
@@ -54,4 +57,16 @@ package com.roadtoglory.splitwiseexptracker.dto;
     {
         this.totalIndividualShare = totalIndividualShare;
     }
+
+    public boolean isOweStatus ()
+    {
+        return oweStatus;
+    }
+
+    public void setOweStatus (boolean oweStatus)
+    {
+        this.oweStatus = oweStatus;
+    }
+
+
 }

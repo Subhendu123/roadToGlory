@@ -7,47 +7,54 @@ import com.road2glory.splitwiseexpensetrackingapp.models.GmailMessageDetails;
 import com.road2glory.splitwiseexpensetrackingapp.models.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.poi.sl.usermodel.Placeholder;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.util.*;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class ExcelUtility {
+
+public class ExcelUtility
+{
     private static Logger LOG = LogManager.getLogger(ExcelUtility.class);
+    //    private static final SplitwiseLogger LOG = SplitwiseLogger.getLogger();
 
 
-    public static void createAndFetchHeader(XSSFSheet sheet) {
+    public void createAndFetchHeader (XSSFSheet sheet)
+    {
         LOG.debug("Header is getting created... ");
 
         XSSFRow headerRow = sheet.createRow(0);
         int colIndex = 0;
-        while (colIndex < 6) {
+        while (colIndex < 6)
+        {
             XSSFCell headerRowCell = headerRow.createCell(colIndex);
-            if(colIndex == 0)
-                headerRowCell.setCellValue(ExcelHeader.SOURCE);
-            if(colIndex == 1)
-                headerRowCell.setCellValue(ExcelHeader.RECORD_DATE);
-            else if(colIndex == 2)
-                headerRowCell.setCellValue(ExcelHeader.DESC);
-            else if(colIndex == 3)
-                headerRowCell.setCellValue(ExcelHeader.CATEGORY);
-            else if(colIndex == 4)
-                headerRowCell.setCellValue(ExcelHeader.AMOUNT);
-            else if(colIndex == 5)
-                headerRowCell.setCellValue(ExcelHeader.SELF_PAYMENT);
+            if (colIndex == 0) headerRowCell.setCellValue(ExcelHeader.SOURCE);
+            if (colIndex == 1) {headerRowCell.setCellValue(ExcelHeader.RECORD_DATE);}
+            else if (colIndex == 2) {headerRowCell.setCellValue(ExcelHeader.DESC);}
+            else if (colIndex == 3) {headerRowCell.setCellValue(ExcelHeader.CATEGORY);}
+            else if (colIndex == 4) {headerRowCell.setCellValue(ExcelHeader.AMOUNT);}
+            else if (colIndex == 5) headerRowCell.setCellValue(ExcelHeader.SELF_PAYMENT);
             colIndex++;
         }
         LOG.debug("Header Creation is done... ");
     }
 
-    public static void convertEMailToExcel(List<GmailMessageDetails> gmailMessageDetailsList, XSSFSheet sheet) {
+    public void convertEMailToExcel (List<GmailMessageDetails> gmailMessageDetailsList, XSSFSheet sheet)
+    {
         int rowNumber = 1; //0 is taken by the header
 
-        for(GmailMessageDetails messageDetails : gmailMessageDetailsList){
+        for (GmailMessageDetails messageDetails : gmailMessageDetailsList)
+        {
             int columnIndex = 0;
             XSSFRow bodyRow = sheet.createRow(rowNumber);
 
@@ -56,10 +63,21 @@ public class ExcelUtility {
 
             XSSFCell dateCell = bodyRow.createCell(columnIndex);
             dateCell.setCellType(CellType.STRING);
-            LOG.debug("The txn date thro Gmail "+messageDetails.getDateOfSend());
+            LOG.debug("The txn date thro Gmail " + messageDetails.getDateOfSend());
+            try
+            {
+                LocalDate dateInLclDte = LocalDate.ofInstant(messageDetails.getDateOfSend().toInstant(), ZoneOffset.systemDefault());
+                DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE;
+                String dateForExcelDisplay = dateInLclDte.format(formatter);
+                dateCell.setCellValue(dateForExcelDisplay);
+                columnIndex++;
+            }
+            catch (DateTimeParseException dateTimeParseException)
+            {
+                LOG.error("Unexpected Error! The Date Could not be parsed due to " + dateTimeParseException);
+                throw new RuntimeException("Unexpected Error! The Date Could not be parsed due to " + dateTimeParseException.getMessage());
+            }
 
-            dateCell.setCellValue(messageDetails.getDateOfSend().toString());
-            columnIndex++;
 
             bodyRow.createCell(columnIndex).setCellValue(messageDetails.getSnippet());
             columnIndex++;
@@ -72,7 +90,7 @@ public class ExcelUtility {
             String str = messageDetails.getSnippet();
             String newStr = str.split("Rs.")[1];
             String amount = newStr.split(" ")[0];
-            LOG.info("The amount collected is "+amount);
+            LOG.info("The amount collected is " + amount);
             bodyRow.createCell(columnIndex).setCellValue(Double.valueOf(amount));
             columnIndex++;
 
@@ -81,11 +99,12 @@ public class ExcelUtility {
         }
     }
 
-    public static void convertSplitwiseToExcel(User userToCheck, XSSFWorkbook workbook) {
+    public void convertSplitwiseToExcel (User userToCheck, XSSFWorkbook workbook)
+    {
         LOG.debug("Splitwise Data is getting written here....");
         XSSFSheet splitwiseSheet = workbook.createSheet("splitwise_expenses");
         XSSFSheet categorySheet = workbook.createSheet("category_expenses");
-        ExcelUtility.createAndFetchHeader(splitwiseSheet);
+        createAndFetchHeader(splitwiseSheet);
 
         Map<String, Double> catMap = new HashMap<>();
         Map<String, Double> othersCatMap = new HashMap<>();
@@ -94,10 +113,12 @@ public class ExcelUtility {
         int splitwiseRowNumber = 1; //0 is taken by the header
 
         LOG.info("The user is checked without any issues!");
-        if(userToCheck.getAllExpenseDetails().size() > 0){
+        if (userToCheck.getAllExpenseDetails().size() > 0)
+        {
 
-            LOG.info("The user: "+userToCheck.getName()+" is valid and has expenses!");
-            for (ExpenseDetails expenseDetails : userToCheck.getAllExpenseDetails()){
+            LOG.info("The user: " + userToCheck.getName() + " is valid and has expenses!");
+            for (ExpenseDetails expenseDetails : userToCheck.getAllExpenseDetails())
+            {
                 int columnIndex = 0;
                 XSSFRow bodyRow = splitwiseSheet.createRow(splitwiseRowNumber);
 
@@ -106,9 +127,25 @@ public class ExcelUtility {
 
                 XSSFCell dateCell = bodyRow.createCell(columnIndex);
                 dateCell.setCellType(CellType.STRING);
-                LOG.debug("The record date thro splitwise txn "+expenseDetails.getRecordDate());
-                dateCell.setCellValue(expenseDetails.getRecordDate().toString());
-                columnIndex++;
+                LOG.debug("The record date thro splitwise txn " + expenseDetails.getRecordDate());
+
+                try
+                {
+                    LocalDate dateInLclDte = LocalDate.ofInstant(expenseDetails.getRecordDate().toInstant(), ZoneOffset.systemDefault());
+                    DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE;
+                    String dateForExcelDisplay = dateInLclDte.format(formatter);
+                    dateCell.setCellValue(dateForExcelDisplay);
+                    columnIndex++;
+                }
+                catch (DateTimeParseException dateTimeParseException)
+                {
+                    LOG.error("Unexpected Error! The Date Could not be parsed due to " + dateTimeParseException);
+                    throw new RuntimeException("Unexpected Error! The Date Could not be parsed due to " + dateTimeParseException.getMessage());
+                }
+
+
+                //                dateCell.setCellValue(expenseDetails.getRecordDate().toString());
+                //                columnIndex++;
 
                 bodyRow.createCell(columnIndex).setCellValue(expenseDetails.getDescription());
                 columnIndex++;
@@ -126,9 +163,12 @@ public class ExcelUtility {
 
                 populateCategoryMap(catMap, expenseDetails);
 
-                if (expenseDetails.isPaidbyme()) {
+                if (expenseDetails.isPaidbyme())
+                {
                     populateCategoryMap(selfCatMap, expenseDetails);
-                } else {
+                }
+                else
+                {
                     populateCategoryMap(othersCatMap, expenseDetails);
                 }
             }
@@ -144,11 +184,11 @@ public class ExcelUtility {
         LOG.debug("Splitwise Data written here. Operation ends!!!");
     }
 
-    private static int exportCategoryToExcel(XSSFSheet categorySheet,
-                                                Map<String, Double> categoryMap, int rowNum,
-                                                String payer) {
+    private int exportCategoryToExcel (XSSFSheet categorySheet, Map<String, Double> categoryMap, int rowNum, String payer)
+    {
         double amount = 0;
-        for (Map.Entry<String, Double> mapElement : categoryMap.entrySet()) {
+        for (Map.Entry<String, Double> mapElement : categoryMap.entrySet())
+        {
             XSSFRow bodyRow = categorySheet.createRow(rowNum);
             bodyRow.createCell(0).setCellValue(mapElement.getKey());
             bodyRow.createCell(1).setCellValue(mapElement.getValue());
@@ -163,33 +203,38 @@ public class ExcelUtility {
         return rowNum;
     }
 
-    private static void populateCategoryMap(Map<String, Double> catMap, ExpenseDetails expenseDetails) {
-        if(catMap.get(expenseDetails.getCategory()) == null){
+    private void populateCategoryMap (Map<String, Double> catMap, ExpenseDetails expenseDetails)
+    {
+        if (catMap.get(expenseDetails.getCategory()) == null)
+        {
             catMap.put(expenseDetails.getCategory(), expenseDetails.getAmount());
-        }else {
+        }
+        else
+        {
             double updatedAmount = expenseDetails.getAmount() + catMap.get(expenseDetails.getCategory());
-            catMap.put(expenseDetails.getCategory(),updatedAmount);
+            catMap.put(expenseDetails.getCategory(), updatedAmount);
         }
     }
 
-    private static void setCategoryDetails(ExpenseDetails expenseDetails) {
-        if(expenseDetails.getCategory().equalsIgnoreCase(Placeholders.HOUSEHOLD_SP_CAT))
-            expenseDetails.setCategory("Maintenance");
+    private void setCategoryDetails (ExpenseDetails expenseDetails)
+    {
+        if (expenseDetails.getCategory().equalsIgnoreCase(Placeholders.HOUSEHOLD_SP_CAT))
+        {expenseDetails.setCategory("Maintenance");}
 
-        if(expenseDetails.getCategory().equalsIgnoreCase(Placeholders.MEDICAL_EXP))
-            expenseDetails.setCategory("Health");
+        if (expenseDetails.getCategory().equalsIgnoreCase(Placeholders.MEDICAL_EXP))
+        {expenseDetails.setCategory("Health");}
 
-        if(expenseDetails.getCategory().equalsIgnoreCase(Placeholders.HEAT_GAS))
-            expenseDetails.setCategory("Grocery");
+        if (expenseDetails.getCategory().equalsIgnoreCase(Placeholders.HEAT_GAS) || expenseDetails.getCategory().equalsIgnoreCase(Placeholders.GENERAL))
+        {expenseDetails.setCategory("Groceries");}
 
-        if(expenseDetails.getCategory().equalsIgnoreCase(Placeholders.TRANSPORT)
-            || expenseDetails.getCategory().equalsIgnoreCase(Placeholders.GIFTS))
-            expenseDetails.setCategory("GIFTS & ENTERTAINMENT");
+        if (expenseDetails.getCategory().equalsIgnoreCase(Placeholders.TRANSPORT) || expenseDetails.getCategory().equalsIgnoreCase(Placeholders.GIFTS))
+        {expenseDetails.setCategory("GIFTS & ENTERTAINMENT");}
 
-        if(Arrays.stream(Placeholders.MANDATORY_CAT)
-                .anyMatch(
-                        category->  expenseDetails.getCategory().equalsIgnoreCase(category)))
-            expenseDetails.setCategory("Mandatory");
+        if (expenseDetails.getCategory().equalsIgnoreCase(Placeholders.FUEL) || expenseDetails.getCategory().equalsIgnoreCase(Placeholders.OTHER_TRANSPORT))
+        {expenseDetails.setCategory("Travel");}
+
+        if (Arrays.stream(Placeholders.MANDATORY_CAT).anyMatch(category -> expenseDetails.getCategory().equalsIgnoreCase(category)))
+        {expenseDetails.setCategory("Mandatory");}
     }
 
 

@@ -23,6 +23,8 @@ import java.util.List;
 @Table(name = "expense_details")
 public class Expense
 {
+
+
     @Id
     //    @GeneratedValue(strategy = GenerationType.AUTO) - Will be used in case of the seq is created by us
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,27 +41,28 @@ public class Expense
     private String description;
 
 
-//    @Column(name = "user_id_list")
-    @OneToMany(mappedBy = "expense", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    //    @Column(name = "user_id_list")
+    @OneToMany(mappedBy = "expense", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<UserExpense> userExpenses;
 
 
-    @Column(name="paid_by")
+    @Column(name = "paid_by")
     private int paidBy;
 
     @Column(name = "split_method")
+    @Enumerated(EnumType.STRING)
     private SplitMethod splitMethod;
 
-    @Column(name="group_id")
+    @Column(name = "group_id")
     private int groupId;
 
     @Column(name = "active_status")
     private boolean activeStatus;
     @Column(name = "prm_curr_id", length = 3)
     private String currencyCode;
-    @Column(name="created_by")
+    @Column(name = "created_by")
     private int createdById;
-    @Column(name="updated_by")
+    @Column(name = "updated_by")
     private int updatedById;
     @Column(name = "created_on", updatable = false)
     @CreationTimestamp
@@ -74,10 +77,10 @@ public class Expense
         return id;
     }
 
-//    public void setId (int id)
-//    {
-//        this.id = id;
-//    }
+    //    public void setId (int id)
+    //    {
+    //        this.id = id;
+    //    }
 
     public SplitMethod getSplitMethod ()
     {
@@ -208,4 +211,12 @@ public class Expense
     {
         this.updateDate = updateDate;
     }
+
+    @Override
+    public String toString ()
+    {
+        return "Expense{" + "id=" + id + ", category=" + category + ", totalAmount=" + totalAmount + ", description='" + description + '\'' + ", userExpenses=" + userExpenses + ", paidBy=" + paidBy + ", splitMethod=" + splitMethod + ", groupId=" + groupId + ", activeStatus=" + activeStatus + ", currencyCode='" + currencyCode + '\'' + ", createdById=" + createdById + ", updatedById=" + updatedById + ", createDate=" + createDate + ", updateDate=" + updateDate + '}';
+    }
+
+
 }

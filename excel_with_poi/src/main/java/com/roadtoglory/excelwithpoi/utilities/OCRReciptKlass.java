@@ -23,7 +23,7 @@ public class OCRReciptKlass {
 
 
         String receiptOcrEndpoint = "https://ocr.asprise.com/api/v1/receipt"; // Receipt OCR API endpoint
-        File imageFile = new File("C:\\RUNNING-WS\\receipt-ocr-main\\receipt-ocr-testing\\src\\main\\resources\\img2.jpg");
+        File imageFile = new File("C:\\OneDrive - Cloud Storage\\OneDrive\\Pictures\\Screenshots\\Dmart-sample.pdf");
 
         System.out.println("=== Java Receipt OCR ===");
         String output = null;
@@ -46,25 +46,22 @@ public class OCRReciptKlass {
         catch (IOException ie){
             ie.printStackTrace();
         }
-
-//        File file = new File("C:\\RUNNING-WS\\receipt-ocr-main\\receipt-ocr-testing\\src\\main\\resources\\myData.json");
-        File file = new File("src/main/resources/myData.json");
-
-//        FileInputStream fis = new FileInputStream(file);
+// For local json - mock response
+       /* File file = new File("src/main/resources/myData.json");
         FileReader reader = new FileReader(file);
+
         int character;
         StringBuilder outputBuilder = new StringBuilder();
         while ((character = reader.read()) != -1) {
             System.out.print((char) character);
             outputBuilder.append((char) character);
         }
-        reader.close();
+        reader.close();*/
         ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonNode = objectMapper.readTree(outputBuilder.toString());
+        JsonNode jsonNode = objectMapper.readTree(output);
         JsonNode node = jsonNode.get("receipts");
         boolean isArr = node.isArray();
         System.out.println("The arr is "+isArr);
-//        System.out.println("The value is "+node.toString());
 
         if(isArr){
             XSSFWorkbook workbook = new XSSFWorkbook();
@@ -93,7 +90,7 @@ public class OCRReciptKlass {
                 rowNum++;
             }
 
-            OutputStream fileOut = new FileOutputStream("src/main/resources/dmart.xlsx");
+            OutputStream fileOut = new FileOutputStream("dmart.xlsx");
             workbook.write(fileOut);
 
             System.out.println("The data is written successfully");

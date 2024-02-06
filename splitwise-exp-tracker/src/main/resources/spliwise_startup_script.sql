@@ -57,7 +57,7 @@ create table expense_details
  drop table if exists user_expense_details;
 create table user_expense_details
 (
-id int NOT NULL primary key auto_increment,
+	id int NOT NULL primary key auto_increment,
 	user_id int NOT NULL,
     exp_id int not null,
     user_share double not null,
