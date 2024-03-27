@@ -1,7 +1,8 @@
 package com.roadtoglory.splitwiseexptracker.controller;
 
 import com.roadtoglory.splitwiseexptracker.dto.ExpenseDetailsDto;
-import com.roadtoglory.splitwiseexptracker.dto.ExpenseResponseDto;
+import com.roadtoglory.splitwiseexptracker.dto.ExtendedExpenseResponse;
+import com.roadtoglory.splitwiseexptracker.dto.SimpleExpenseResponse;
 import com.roadtoglory.splitwiseexptracker.exceptions.BadSplitInformationException;
 import com.roadtoglory.splitwiseexptracker.exceptions.IncompleteRequestException;
 import com.roadtoglory.splitwiseexptracker.models.Expense;
@@ -76,11 +77,19 @@ public class ExpenseTrackController
     }
 
     @GetMapping(value = "/getExpenses/individual")
-    public ExpenseResponseDto getExpensesForGroup (@RequestParam("group_id") int groupId, @RequestParam("user_id") int userId)
+    public SimpleExpenseResponse getExpensesForGroup (@RequestParam("group_id") int groupId, @RequestParam("user_id") int userId)
     {
         LOG.debug("SplitwiseExpTrackerApplication - Fetching Expenses for an individual with id " + userId + " under " + "a group having id " + groupId);
 
         return expenseService.findIndExpDetailsForUserInGroup(userId, groupId);
+    }
+
+    @GetMapping(value = "/getExpenses/evaluated")
+    public List<ExtendedExpenseResponse> getEvaluatedExpenses (@RequestParam("group_id") int groupId)
+    {
+        LOG.debug("SplitwiseExpTrackerApplication - Fetching Expenses for all members under a group having id " + groupId);
+
+        return expenseService.evaluateSplitDetails(groupId);
     }
 
 

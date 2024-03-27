@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 */public class ExpenseServiceValidator
 {
 
+
     //    public static <SplitInfoDto> Predicate<com.roadtoglory.splitwiseexptracker.dto.SplitInfoDto> distinctByKey(Function<? super com.roadtoglory.splitwiseexptracker.dto.SplitInfoDto, ?> keyExtractor) {
     //        Set<Object> seen = ConcurrentHashMap.newKeySet();
     //        return t -> seen.add(keyExtractor.apply(t));
@@ -33,7 +34,10 @@ import java.util.stream.Collectors;
         if (expenseDetailsDto != null && expenseDetailsDto.getExpenseDetails() != null && expenseDetailsDto.getSplitInfoDtos() != null)
         {
             List<SplitInfoDto> splitInfoDtos = expenseDetailsDto.getSplitInfoDtos();
-            int count = splitInfoDtos.stream().map(splitInfoDto -> splitInfoDto.getUserId()).collect(Collectors.toSet()).size();
+            int count = splitInfoDtos.stream()
+                                     .map(splitInfoDto -> splitInfoDto.getUserId())
+                                     .collect(Collectors.toSet())
+                                     .size();
 
             //            Long count = splitInfoDtos.stream().filter(distinctByKey(SplitInfoDto::getUserId)).count();
 
@@ -47,17 +51,23 @@ import java.util.stream.Collectors;
 
             if (expenseDto.getSplitMethod().equals(SplitMethod.EQUAL))
             {
-                isIncorrectSplitDetected = expenseDetailsDto.getSplitInfoDtos().stream().anyMatch(s -> s.getCustomAmount() > 0 || s.getPercentage() > 0 || s.getShare() > 0);
+                isIncorrectSplitDetected = expenseDetailsDto.getSplitInfoDtos()
+                                                            .stream()
+                                                            .anyMatch(s -> s.getCustomAmount() > 0 || s.getPercentage() > 0 || s.getShare() > 0);
                 validateAndFlagSplitModeInfo(isIncorrectSplitDetected);
             }
             else if (expenseDto.getSplitMethod().equals(SplitMethod.SHARE))
             {
-                isIncorrectSplitDetected = expenseDetailsDto.getSplitInfoDtos().stream().anyMatch(s -> s.getShare() < 0 || s.getCustomAmount() > 0 || s.getPercentage() > 0);
+                isIncorrectSplitDetected = expenseDetailsDto.getSplitInfoDtos()
+                                                            .stream()
+                                                            .anyMatch(s -> s.getShare() < 0 || s.getCustomAmount() > 0 || s.getPercentage() > 0);
                 validateAndFlagSplitModeInfo(isIncorrectSplitDetected);
             }
             else if (expenseDto.getSplitMethod().equals(SplitMethod.PERCENTAGE))
             {
-                isIncorrectSplitDetected = expenseDetailsDto.getSplitInfoDtos().stream().anyMatch(s -> s.getShare() > 0 || s.getCustomAmount() > 0 || s.getPercentage() < 0);
+                isIncorrectSplitDetected = expenseDetailsDto.getSplitInfoDtos()
+                                                            .stream()
+                                                            .anyMatch(s -> s.getShare() > 0 || s.getCustomAmount() > 0 || s.getPercentage() < 0);
                 validateAndFlagSplitModeInfo(isIncorrectSplitDetected);
 
                 double grandTotal = 0;
@@ -69,7 +79,9 @@ import java.util.stream.Collectors;
             }
             else if (expenseDto.getSplitMethod().equals(SplitMethod.CUSTOM))
             {
-                isIncorrectSplitDetected = expenseDetailsDto.getSplitInfoDtos().stream().anyMatch(s -> s.getShare() > 0 || s.getCustomAmount() < 0 || s.getPercentage() > 0);
+                isIncorrectSplitDetected = expenseDetailsDto.getSplitInfoDtos()
+                                                            .stream()
+                                                            .anyMatch(s -> s.getShare() > 0 || s.getCustomAmount() < 0 || s.getPercentage() > 0);
                 validateAndFlagSplitModeInfo(isIncorrectSplitDetected);
 
                 double grandTotal = 0;
@@ -100,9 +112,10 @@ import java.util.stream.Collectors;
         {
             throw new BadSplitInformationException("Mandatory parameters are not available in the request");
         }
-        if (expenseDto.getSplitMethod() == null || expenseDto.getDescription().isEmpty() || expenseDto.getCurrencyCode().isEmpty())
+        if (expenseDto.getSplitMethod() == null || expenseDto.getDescription().isEmpty() || expenseDto.getCurrencyCode()
+                                                                                                      .isEmpty())
         {
-            throw new BadSplitInformationException("Mandatory parameters are either not available or empty in the " + "request");
+            throw new BadSplitInformationException("Mandatory parameters are either not available or empty in the request");
         }
 
     }
@@ -111,7 +124,7 @@ import java.util.stream.Collectors;
     {
         if (isIncorrectSplitDetected)
         {
-            throw new BadSplitInformationException("Incorrect Information! Please verify the request " + "parameters!");
+            throw new BadSplitInformationException("Incorrect Information! Please verify the request parameters!");
         }
     }
 
@@ -122,4 +135,6 @@ import java.util.stream.Collectors;
             throw new BadSplitInformationException(exceptionMessage);
         }
     }
+
+
 }

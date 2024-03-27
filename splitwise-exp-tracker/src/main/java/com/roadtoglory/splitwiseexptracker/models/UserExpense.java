@@ -1,7 +1,6 @@
 package com.roadtoglory.splitwiseexptracker.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 
@@ -20,6 +19,7 @@ import jakarta.persistence.*;
 public class UserExpense
 {
 
+
     @Id
     //    @GeneratedValue(strategy = GenerationType.AUTO) - Will be used in case of the seq is created by us
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,16 +28,16 @@ public class UserExpense
     @Column(name = "user_id")
     private int userId;
 
-//    @Id
-//    @Column(name="exp_id", nullable = false)
-//    private int expId;
+    //    @Id
+    //    @Column(name="exp_id", nullable = false)
+    //    private int expId;
 
-//    @EmbeddedId
-//    private UserExpenseId userExpenseId;
+    //    @EmbeddedId
+    //    private UserExpenseId userExpenseId;
 
     @ManyToOne
     @JoinColumn(name = "exp_id")
-//    @JsonIgnore
+    @JsonIgnore
     private Expense expense;
 
     @Column(name = "active_status")
@@ -76,15 +76,15 @@ public class UserExpense
         this.userId = userId;
     }
 
-//    public int getExpId ()
-//    {
-//        return expId;
-//    }
-//
-//    public void setExpId (int expId)
-//    {
-//        this.expId = expId;
-//    }
+    //    public int getExpId ()
+    //    {
+    //        return expId;
+    //    }
+    //
+    //    public void setExpId (int expId)
+    //    {
+    //        this.expId = expId;
+    //    }
 
     public boolean isActiveStatus ()
     {
@@ -95,6 +95,7 @@ public class UserExpense
     {
         this.activeStatus = activeStatus;
     }
+
     public Double getUserShare ()
     {
         return userShare;
@@ -104,5 +105,6 @@ public class UserExpense
     {
         this.userShare = userShare;
     }
+
 
 }

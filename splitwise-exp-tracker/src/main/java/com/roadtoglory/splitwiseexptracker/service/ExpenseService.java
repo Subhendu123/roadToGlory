@@ -7,7 +7,8 @@ import com.roadtoglory.splitwiseexptracker.dao.GroupJPARepo;
 import com.roadtoglory.splitwiseexptracker.dao.SplitJPARepo;
 import com.roadtoglory.splitwiseexptracker.dao.UserJPARepo;
 import com.roadtoglory.splitwiseexptracker.dto.ExpenseDetailsDto;
-import com.roadtoglory.splitwiseexptracker.dto.ExpenseResponseDto;
+import com.roadtoglory.splitwiseexptracker.dto.ExtendedExpenseResponse;
+import com.roadtoglory.splitwiseexptracker.dto.SimpleExpenseResponse;
 import com.roadtoglory.splitwiseexptracker.dto.SplitInfoDto;
 import com.roadtoglory.splitwiseexptracker.helper.ExpenseServiceHelper;
 import com.roadtoglory.splitwiseexptracker.models.Expense;
@@ -22,7 +23,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static com.roadtoglory.splitwiseexptracker.helper.ExpenseServiceHelper.populatePayorAndPayeeDetails;
 
 
 /*
@@ -74,7 +81,7 @@ public class ExpenseService
         Group groupDetails = groupJPARepo.findById(expenseDetailsDto.getExpenseDetails().getGroupId()).orElse(null);
         LOG.debug("SplitwiseExpTrackerApplication - The Group Details are " + groupDetails);
 
-        ExpenseServiceValidator.validateOrRaiseExc(groupDetails == null, "Incorrect Group" + " Information! Please provide the correct details group!");
+        ExpenseServiceValidator.validateOrRaiseExc(groupDetails == null, "Incorrect Group Information! Please provide the correct details group!");
 
         LOG.debug("SplitwiseExpTrackerApplication - validateOrRaiseExc is done");
 
@@ -116,6 +123,7 @@ public class ExpenseService
             //            expSetObject.setUserExpenses(null);
             expSetObject.setCategory(expense.getCategory());
             expSetObject.setGroupId(expense.getGroupId());
+            expSetObject.setUserExpenses(expense.getUserExpenses());
             expSetObject.setActiveStatus(expense.isActiveStatus());
             expSetObject.setDescription(expense.getDescription());
             expSetObject.setCreateDate(expense.getCreateDate());
@@ -132,7 +140,7 @@ public class ExpenseService
 
     }
 
-    public ExpenseResponseDto findIndExpDetailsForUserInGroup (int userId, int groupId)
+    public SimpleExpenseResponse findIndExpDetailsForUserInGroup (int userId, int groupId)
     {
 
         User userDetails = userJPARepo.findById(userId).orElse(null);
@@ -143,7 +151,6 @@ public class ExpenseService
 
         List<Expense> expeListInGroup = findAllExpensesForGroup(groupId);
 
-        List<UserExpense> users = expeListInGroup.stream().flatMap(s -> s.getUserExpenses().stream().filter(userExpense -> userExpense.getUserId() == userId)).toList();
 
         //        List<Expense> expenseList = expenseJPARepo.findAll().stream().filter(expense -> expense.getGroupId() == groupId).toList();
         //
@@ -152,29 +159,12 @@ public class ExpenseService
         //        List<UserExpense> users = expenseJPARepo.findAll().stream().filter(expense -> expense.getGroupId() == groupId).flatMap(s -> s.getUserExpenses().stream().filter(userExpense -> userExpense.getUserId() == userId)).toList();
 
         // payment not done by ind is -
-        double owedAmt = users.stream().filter(userExpense -> userExpense.getUserShare() < 0).mapToDouble(UserExpense::getUserShare).sum();
-        owedAmt = owedAmt * (-1);
 
-        double lentAmount = 0;
 
-        // payment done by ind - is +
-        List<UserExpense> indvUserExpList = users.stream().filter(userExpense -> userExpense.getUserShare() > 0).toList();
-        for (UserExpense indvExp : indvUserExpList)
-        {
-            lentAmount = lentAmount + indvExp.getExpense().getTotalAmount() - indvExp.getUserShare();
-        }
-        double getBackAmount = lentAmount - owedAmt;
-        double totalExpense = expeListInGroup.stream().mapToDouble(Expense::getTotalAmount).sum();
-
-        ExpenseResponseDto responseDto = new ExpenseResponseDto();
-        responseDto.setGroupId(groupId);
-        responseDto.setUserId(userId);
-        responseDto.setTotalExpAmount(totalExpense);
-        responseDto.setOweStatus(getBackAmount > -1);
-        responseDto.setTotalIndividualShare(getBackAmount > 0 ? getBackAmount : getBackAmount * -1);
-
-        return responseDto;
+        return ExpenseServiceHelper.getExpenseResponseDto(userId, groupId, expeListInGroup);
     }
+
+
 
     private void saveSplitDetails (ExpenseDetailsDto expenseDetailsDto, Expense expense, double indvShare)
     {
@@ -183,6 +173,87 @@ public class ExpenseService
             UserExpense userExpense = ExpenseServiceHelper.getUserExpense(expenseDetailsDto, expense, indvShare, splitInfoDto);
             splitJPARepo.saveAndFlush(userExpense);
         }
+    }
+
+    public List<ExtendedExpenseResponse> evaluateSplitDetails (int groupId)
+    {
+        // fetch the users (user id) from the group table using the group id
+        List<Expense> expeListInGroup = findAllExpensesForGroup(groupId);
+        List<Integer> users = expeListInGroup.get(0)
+                                             .getUserExpenses()
+                                             .stream()
+                                             .map(UserExpense::getUserId)
+                                             .toList();
+        //        for (Integer userId : users)
+        //        {
+        //            ExtendedExpenseResponse expenseResponse = ExpenseServiceHelper.getExpenseResponseDto(userId, groupId, expeListInGroup);
+        //            expenseList.add(expenseResponse);
+        //        }
+
+        List<ExtendedExpenseResponse> expenseList = users.stream()
+                                                         .map(userId -> ExpenseServiceHelper.getExpenseResponseDto(userId, groupId, expeListInGroup))
+                                                         .toList();
+
+        Map<Boolean, List<ExtendedExpenseResponse>> partitionedUsers = expenseList.stream()
+                                                                                  .sorted(Comparator.comparingDouble(ExtendedExpenseResponse::getIndvShareAmount)
+                                                                                                    .reversed())
+                                                                                  .collect(Collectors.partitioningBy(ExtendedExpenseResponse::isOweStatus));
+
+        List<ExtendedExpenseResponse> getbackUsers = partitionedUsers.get(true);
+        List<ExtendedExpenseResponse> topayUsers = partitionedUsers.get(false);
+
+        for (ExtendedExpenseResponse getbackUser : getbackUsers)
+        {
+            for (ExtendedExpenseResponse topayUser : topayUsers)
+            {
+                if (topayUser.isPaymentCompleted())
+                {
+                    continue;
+                }
+                double balanceRem = getbackUser.getPendingOweAmount() > 0 ?
+                                            getbackUser.getPendingOweAmount() :
+                                            getbackUser.getIndvShareAmount();
+                double donateBalRem = topayUser.getLeftOverBalForDonate() > 0 ?
+                                              topayUser.getLeftOverBalForDonate() :
+                                              topayUser.getIndvShareAmount();
+
+                double calculatedBalRem = balanceRem - donateBalRem;
+                if (calculatedBalRem == 0)
+                {
+                    // all paid for this user
+                    getbackUser.setPendingOweAmount(0);
+                    getbackUser.setPaymentCompleted(true);
+                    populatePayorAndPayeeDetails(getbackUser, topayUser, donateBalRem);
+                    topayUser.setPaymentCompleted(true);
+                    //                    topayUsers.remove(topayUser);
+                    break;
+                }
+                else if (calculatedBalRem > 0)
+                {
+                    // current topay user does not have enough money to pay
+                    // check for other payor
+                    getbackUser.setPendingOweAmount(calculatedBalRem);
+                    getbackUser.setPaymentCompleted(false);
+                    populatePayorAndPayeeDetails(getbackUser, topayUser, donateBalRem);
+                    topayUser.setPaymentCompleted(true);
+                    //                    topayUsers.remove(topayUser);
+                }
+                else
+                {
+                    // when the to pay user has more amount than the person owing
+                    calculatedBalRem = calculatedBalRem * (-1);
+                    // this payee is done. everything paid.
+                    topayUser.setLeftOverBalForDonate(calculatedBalRem);
+                    getbackUser.setPendingOweAmount(0);
+                    getbackUser.setPaymentCompleted(true);
+                    populatePayorAndPayeeDetails(getbackUser, topayUser, balanceRem);
+                    break;
+                }
+
+            }
+        }
+        return Stream.concat(getbackUsers.stream(), topayUsers.stream())
+                     .toList();
     }
 
 
