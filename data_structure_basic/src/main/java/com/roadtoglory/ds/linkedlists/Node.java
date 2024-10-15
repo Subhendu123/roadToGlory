@@ -13,6 +13,7 @@ package com.roadtoglory.ds.linkedlists;
 public class Node
 {
 
+
     public Node next;
     public int value;
 
@@ -28,4 +29,15 @@ public class Node
     {
         return value;
     }
+
+    @Override
+    public String toString ()
+    {
+        return "Node{" +
+                       "next=" + next +
+                       ", value=" + value +
+                       '}';
+    }
+
+
 }

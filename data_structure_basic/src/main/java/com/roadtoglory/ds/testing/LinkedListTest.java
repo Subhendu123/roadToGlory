@@ -16,6 +16,7 @@ import com.roadtoglory.ds.linkedlists.LinkedListImpl;
 public class LinkedListTest
 {
 
+
     public static void main (String[] args)
     {
         LinkedListImpl linkedListImpl = new LinkedListImpl(10);
@@ -24,6 +25,10 @@ public class LinkedListTest
         linkedListImpl.append(40);
         linkedListImpl.append(50);
         linkedListImpl.addWithIndex(38, 4);
+
+
+        System.out.println("The node searched is found at position " + linkedListImpl.search(50));
+
 
         System.out.println(linkedListImpl.removeFirst().getValue());
 
@@ -51,8 +56,10 @@ public class LinkedListTest
         linkedList.append(2);
         linkedList.append(1);
         linkedList.printList();
-        linkedList.partitionList(5);
+        //        linkedList.partitionList(5);
 
 
     }
+
+
 }

@@ -14,6 +14,8 @@ import java.util.HashSet;
 */public class LinkedListImpl implements LinkedList
 {
 
+
+    private static int pos = 0;
     private Node head;
     private Node tail;
     private int length;
@@ -226,7 +228,9 @@ import java.util.HashSet;
     public void reverse ()
     {
         if (this.head == null || this.tail == null || this.length == 0)
-        {System.out.println("Invalid! Please create a linkedlist before calling this method");}
+        {
+            System.out.println("Invalid! Please create a linkedlist before calling this method");
+        }
         else
         {
             Node temp = this.head;
@@ -247,6 +251,24 @@ import java.util.HashSet;
 
     }
 
+    public int search (int key)
+    {
+        return searchWithNode(this.head, key);
+    }
+
+    private int searchWithNode (Node head, int key)
+    {
+        if (head == null)
+        {
+            return -1;
+        }
+        if (head.value == key)
+        {
+            return pos;
+        }
+        pos++;
+        return searchWithNode(head.next, key);
+    }
 
     public boolean hasLoop ()
     {
@@ -405,6 +427,30 @@ import java.util.HashSet;
 
         }
         return head;
+    }
+
+    public int countNode ()
+    {
+        Node tempNode = this.head;
+        int count = 0;
+        while (tempNode != null)
+        {
+            count++;
+            tempNode = tempNode.next;
+        }
+        return count;
+    }
+
+    public int sum ()
+    {
+        Node tempNode = this.head;
+        int count = 0;
+        while (tempNode != null)
+        {
+            count += tempNode.getValue();
+            tempNode = tempNode.next;
+        }
+        return count;
     }
 
     //    public Node swapPairs (Node head)
