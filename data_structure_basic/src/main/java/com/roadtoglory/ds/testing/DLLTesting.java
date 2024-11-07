@@ -15,6 +15,8 @@ import com.roadtoglory.ds.linkedlists.LinkedListImpl;
 *
 */public class DLLTesting
 {
+
+
     public static void main (String[] args)
     {
         DoublyLinkedListImpl doublyLinkedList = new DoublyLinkedListImpl(10);
@@ -27,7 +29,7 @@ import com.roadtoglory.ds.linkedlists.LinkedListImpl;
         doublyLinkedList.removeLast();
         doublyLinkedList.printList();
 
-        doublyLinkedList.addWithIndex(44, 4);
+        doublyLinkedList.insert(44, 4);
         System.out.println("\n Add with index is called!");
         doublyLinkedList.printList();
 
@@ -48,6 +50,7 @@ import com.roadtoglory.ds.linkedlists.LinkedListImpl;
         */public static class LinkedListLeetCodeTesting
     {
 
+
         public static void main (String[] args)
         {
             LinkedListImpl myLinkedList = new LinkedListImpl(1);
@@ -62,10 +65,14 @@ import com.roadtoglory.ds.linkedlists.LinkedListImpl;
             myLinkedList.removeDuplicates();
             myLinkedList.printList();
         }
+
+
     }
 
     public static class HTTesting
     {
+
+
         public static void main (String[] args)
         {
             Hashtable hashtable = new Hashtable();
@@ -77,5 +84,9 @@ import com.roadtoglory.ds.linkedlists.LinkedListImpl;
             hashtable.insert("F", 34);
             hashtable.printTable();
         }
+
+
     }
+
+
 }

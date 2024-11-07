@@ -92,7 +92,7 @@ import java.util.HashSet;
 
     }
 
-    public void addWithIndex (int value, int index)
+    public void insert (int value, int index)
     {
         System.out.println("Adding " + value + " to the index no. " + index);
 
@@ -248,6 +248,164 @@ import java.util.HashSet;
             System.out.println("The reverse is");
             printList();
         }
+
+    }
+
+    @Override
+    public void sort ()
+    {
+        Node h1 = this.head;
+        if (h1.next == null)
+        {
+            return;
+        }
+        Node h2 = null;
+        while (h1 != null)
+        {
+            h2 = h1.next;
+            while (h2 != null)
+            {
+                if (h1.value > h2.value)
+                {
+                    // swaap node values
+                    int data = h1.value;
+                    h1.value = h2.value;
+                    h2.value = data;
+                }
+                h2 = h2.next;
+            }
+            h1 = h1.next;
+        }
+
+    }
+
+    /**
+     * @param value
+     */
+    @Override
+    public void insertIntoSortedList (int value)
+    {
+        // check if the list is sorted. And, insert it if it is correct.
+        boolean isListSorted = false;
+        Node pointer = this.head;
+        Node prevPointer = null;
+        int currentHighest = -1;
+
+        while (pointer != null)
+        {
+            if (pointer.value > currentHighest)
+            {
+                currentHighest = pointer.value;
+                isListSorted = true;
+            }
+            else
+            {
+                isListSorted = false;
+                break;
+            }
+
+            if (value <= pointer.value)
+            {
+                Node newNode = new Node(value);
+                newNode.next = pointer;
+                if (prevPointer != null)
+                {
+                    prevPointer.next = newNode;
+                }
+                else
+                {
+                    // first node
+                    this.head = newNode;
+                }
+                break;
+            }
+            else if (pointer.next == null)
+            {
+                // last node
+                Node newNode = new Node(value);
+                pointer.next = newNode;
+                newNode.next = null;
+                break;
+            }
+
+            pointer = pointer.next;
+        }
+
+        if (!isListSorted)
+        {
+            throw new RuntimeException("The linked list is not sorted. yet!");
+        }
+
+    }
+
+    private boolean isSorted ()
+    {
+        boolean isListSorted = false;
+        Node pointer = this.head;
+        int currentHighest = -1;
+
+        while (pointer != null)
+        {
+            if (pointer.value > currentHighest)
+            {
+                currentHighest = pointer.value;
+                isListSorted = true;
+            }
+            else
+            {
+                isListSorted = false;
+                break;
+            }
+            pointer = pointer.next;
+        }
+        return isListSorted;
+    }
+
+    public void mergeSortedLists (Node listhead1, Node listhead2)
+    {
+        Node ptr3 = null;
+        while (listhead1 != null && listhead2 != null)
+        {
+            Node big = listhead2;
+            Node small = listhead1;
+            if (listhead1.value > listhead2.value)
+            {
+                big = listhead1;
+                small = listhead2;
+            }
+            if (ptr3 == null)
+            {
+                // this is the first node
+                ptr3 = small;
+            }
+            else
+            {
+                ptr3.next = small;
+                ptr3 = ptr3.next;
+            }
+            ptr3.next = big;
+            ptr3 = ptr3.next;
+            
+            listhead1 = listhead1.next;
+            listhead2 = listhead2.next;
+
+        }
+    }
+
+    public void reverseWith3Ptr ()
+    {
+        Node nxtPtr = this.head;
+        Node currNode = null;
+        Node prevNode = null;
+
+        while (nxtPtr != null)
+        {
+            prevNode = currNode;
+            currNode = nxtPtr;
+            nxtPtr = nxtPtr.next;
+            currNode.next = prevNode;
+        }
+        this.head = currNode;
 
     }
 

@@ -11,26 +11,19 @@ package com.roadtoglory.ds.linkedlists;
 */
 public class DoublyLinkedListImpl implements LinkedList
 {
+
+
     private static Node head;
     Node tail;
     int length;
 
-    public DoublyLinkedListImpl(int value){
-        if(this.head == null){
+    public DoublyLinkedListImpl (int value)
+    {
+        if (this.head == null)
+        {
             this.head = new Node(value);
             this.tail = this.head;
             this.length = 1;
-        }
-
-    }
-
-    class Node {
-        int value;
-        Node next;
-        Node prev;
-
-        Node(int value){
-            this.value = value;
         }
 
     }
@@ -39,11 +32,12 @@ public class DoublyLinkedListImpl implements LinkedList
      *
      */
     @Override
-    public void printList()
+    public void printList ()
     {
         Node itrNode = this.head;
         System.out.println("");
-        while (itrNode != null){
+        while (itrNode != null)
+        {
             System.out.print(itrNode.value + " -> ");
             itrNode = itrNode.next;
         }
@@ -54,21 +48,23 @@ public class DoublyLinkedListImpl implements LinkedList
      *
      */
     @Override
-    public void getLength()
+    public void getLength ()
     {
-        System.out.println("Length "+this.length);
+        System.out.println("Length " + this.length);
     }
 
     /**
      * @param value
      */
     @Override
-    public void append(int value)
+    public void append (int value)
     {
         Node itrNode = this.head;
         Node newEntry = new Node(value);
-        while (itrNode != null){
-            if(itrNode.next == null){
+        while (itrNode != null)
+        {
+            if (itrNode.next == null)
+            {
                 itrNode.next = newEntry;
                 newEntry.prev = itrNode;
                 this.tail = newEntry;
@@ -84,11 +80,12 @@ public class DoublyLinkedListImpl implements LinkedList
      * @param value
      */
     @Override
-    public void prepend(int value)
+    public void prepend (int value)
     {
 
         Node itrNode = this.head;
-        if(itrNode != null){
+        if (itrNode != null)
+        {
             Node newEntry = new Node(value);
             newEntry.next = itrNode;
             itrNode.prev = newEntry;
@@ -104,13 +101,16 @@ public class DoublyLinkedListImpl implements LinkedList
      * @param index
      */
     @Override
-    public void addWithIndex(int value, int index)
+    public void insert (int value, int index)
     {
-        if(index <= this.length){
+        if (index <= this.length)
+        {
             Node itrNode = this.head;
             int counter = 1;
-            while (itrNode != null){
-                if(index == counter){
+            while (itrNode != null)
+            {
+                if (index == counter)
+                {
                     Node temp = new Node(value);
                     Node prev = itrNode.prev;
                     prev.next = temp;
@@ -130,16 +130,17 @@ public class DoublyLinkedListImpl implements LinkedList
      * @return
      */
     @Override
-    public Node removeFirst()
+    public Node removeFirst ()
     {
         Node removedNode = null;
-        if(this.tail != null){
+        if (this.tail != null)
+        {
             removedNode = this.tail;
             this.tail = this.tail.prev;
             this.tail.next = null;
             this.length--;
         }
-        System.out.println("The removed node is "+removedNode.toString());
+        System.out.println("The removed node is " + removedNode.toString());
         return removedNode;
     }
 
@@ -147,16 +148,17 @@ public class DoublyLinkedListImpl implements LinkedList
      * @return
      */
     @Override
-    public Node removeLast()
+    public Node removeLast ()
     {
         Node removedNode = null;
-        if(this.tail != null){
+        if (this.tail != null)
+        {
             removedNode = this.tail;
             this.tail = this.tail.prev;
             this.tail.next = null;
             this.length--;
         }
-        System.out.println("The removed node is "+removedNode.toString());
+        System.out.println("The removed node is " + removedNode.toString());
         return removedNode;
     }
 
@@ -166,7 +168,7 @@ public class DoublyLinkedListImpl implements LinkedList
      * @return
      */
     @Override
-    public int removeIndexWise(int index)
+    public int removeIndexWise (int index)
     {
         return 0;
     }
@@ -176,7 +178,7 @@ public class DoublyLinkedListImpl implements LinkedList
      * @param value
      */
     @Override
-    public void replaceIndex(int index, int value)
+    public void replaceIndex (int index, int value)
     {
 
     }
@@ -186,7 +188,7 @@ public class DoublyLinkedListImpl implements LinkedList
      * @param index2
      */
     @Override
-    public void substitute(int index1, int index2)
+    public void substitute (int index1, int index2)
     {
 
     }
@@ -195,30 +197,40 @@ public class DoublyLinkedListImpl implements LinkedList
      *
      */
     @Override
-    public void reverse()
+    public void reverse ()
     {
-        if(this.head == null || this.tail == null || this.length == 0)
+        if (this.head == null || this.tail == null || this.length == 0)
+        {
             return;
+        }
 
         Node reverseNode = null;
         Node newHead = null;
         Node revItr = this.tail;
-        while(revItr != null){
-            if(reverseNode == null){
+        while (revItr != null)
+        {
+            if (reverseNode == null)
+            {
                 reverseNode = revItr;
                 Node prev = revItr.prev;
                 reverseNode.prev = null;
                 reverseNode.next = prev;
                 prev.prev = reverseNode;
-                if(newHead == null)
+                if (newHead == null)
+                {
                     newHead = reverseNode;
+                }
 
-            }else{
+            }
+            else
+            {
                 reverseNode = revItr;
                 Node prev = revItr.prev;
                 reverseNode.next = prev;
-                if(prev != null)
+                if (prev != null)
+                {
                     prev.prev = reverseNode;
+                }
             }
 
             reverseNode = reverseNode.next;
@@ -226,4 +238,40 @@ public class DoublyLinkedListImpl implements LinkedList
         }
         this.head = newHead;
     }
+
+    /**
+     *
+     */
+    @Override
+    public void sort ()
+    {
+
+    }
+
+    /**
+     * @param value
+     */
+    @Override
+    public void insertIntoSortedList (int value)
+    {
+
+    }
+
+    class Node
+    {
+
+
+        int value;
+        Node next;
+        Node prev;
+
+        Node (int value)
+        {
+            this.value = value;
+        }
+
+
+    }
+
+
 }

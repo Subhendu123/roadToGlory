@@ -10,19 +10,36 @@ package com.roadtoglory.ds.linkedlists;
 *
 */public interface LinkedList
 {
-    public void printList();
-    public void getLength();
-    public void append(int value);
-    public void prepend(int value);
 
-    public void addWithIndex(int value, int index);
 
-    public Object removeFirst();
-    public Object removeLast();
-    public int removeIndexWise(int index);
-    public void replaceIndex(int index, int value);
-    public void substitute(int index1, int index2);
-    public void reverse();
+    public void printList ();
+
+    public void getLength ();
+
+    public void append (int value);
+
+    public void prepend (int value);
+
+    public void insert (int value, int index);
+
+    public Object removeFirst ();
+
+    public Object removeLast ();
+
+    public int removeIndexWise (int index);
+
+    public void replaceIndex (int index, int value);
+
+    public void substitute (int index1, int index2);
+
+    public void reverse ();
+
+    /*
+    @DOC This method is used to sort the entire linked list
+     */
+    public void sort ();
+
+    public void insertIntoSortedList (int value);
 
 
 }

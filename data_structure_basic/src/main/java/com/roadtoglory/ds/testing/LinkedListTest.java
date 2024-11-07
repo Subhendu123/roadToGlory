@@ -19,16 +19,30 @@ public class LinkedListTest
 
     public static void main (String[] args)
     {
-        LinkedListImpl linkedListImpl = new LinkedListImpl(10);
-        linkedListImpl.append(20);
-        linkedListImpl.append(30);
+        LinkedListImpl linkedListImpl = new LinkedListImpl(60);
+        linkedListImpl.append(23);
+        linkedListImpl.append(10);
+        linkedListImpl.append(13);
         linkedListImpl.append(40);
         linkedListImpl.append(50);
-        linkedListImpl.addWithIndex(38, 4);
+        linkedListImpl.append(35);
+        linkedListImpl.insert(38, 4);
 
 
-        System.out.println("The node searched is found at position " + linkedListImpl.search(50));
+        System.out.println("The node searched is found at position " + linkedListImpl.search(11));
+        System.out.println("Let's try the sort. Before sorting check the linked list");
+        linkedListImpl.printList();
+        linkedListImpl.sort();
+        System.out.println("The sorting done. please check the res.");
+        linkedListImpl.printList();
+        System.out.println("--------------------------------");
 
+        // insert into the sorted list
+
+        linkedListImpl.insertIntoSortedList(12);
+        System.out.println("The insert into sorted list is done. please check the linked list now.");
+        linkedListImpl.printList();
+        System.out.println("--------------------------------");
 
         System.out.println(linkedListImpl.removeFirst().getValue());
 
@@ -45,6 +59,9 @@ public class LinkedListTest
         //        linkedListImpl.printList();
 
         linkedListImpl.reverse();
+        System.out.println("reverse with 3 ptr...");
+        linkedListImpl.reverseWith3Ptr();
+        linkedListImpl.printList();
 
         linkedListImpl.getLength();
 
