@@ -2,6 +2,7 @@ package com.roadtoglory.ds.testing;
 
 
 import com.roadtoglory.ds.linkedlists.LinkedListImpl;
+import com.roadtoglory.ds.linkedlists.LinkedListUtil;
 
 
 /*
@@ -36,6 +37,18 @@ public class LinkedListTest
         System.out.println("The sorting done. please check the res.");
         linkedListImpl.printList();
         System.out.println("--------------------------------");
+
+        LinkedListImpl linkedListImpl2 = new LinkedListImpl(60);
+        linkedListImpl2.append(1);
+        linkedListImpl2.append(10);
+        linkedListImpl2.append(2);
+        linkedListImpl2.append(8);
+        linkedListImpl2.append(5);
+        linkedListImpl2.append(35);
+        linkedListImpl2.sort();
+
+        LinkedListUtil.merge(linkedListImpl, linkedListImpl2);
+
 
         // insert into the sorted list
 

@@ -361,36 +361,7 @@ import java.util.HashSet;
         return isListSorted;
     }
 
-    public void mergeSortedLists (Node listhead1, Node listhead2)
-    {
-        Node ptr3 = null;
-        while (listhead1 != null && listhead2 != null)
-        {
-            Node big = listhead2;
-            Node small = listhead1;
-            if (listhead1.value > listhead2.value)
-            {
-                big = listhead1;
-                small = listhead2;
-            }
-            if (ptr3 == null)
-            {
-                // this is the first node
-                ptr3 = small;
-            }
-            else
-            {
-                ptr3.next = small;
-                ptr3 = ptr3.next;
-            }
-            ptr3.next = big;
-            ptr3 = ptr3.next;
-            
-            listhead1 = listhead1.next;
-            listhead2 = listhead2.next;
-
-        }
-    }
+   
 
     public void reverseWith3Ptr ()
     {
