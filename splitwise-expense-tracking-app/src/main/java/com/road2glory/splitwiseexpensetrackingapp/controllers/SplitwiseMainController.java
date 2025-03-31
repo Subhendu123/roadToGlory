@@ -17,6 +17,8 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -33,17 +35,41 @@ public class SplitwiseMainController
 
     // private static final Logger LOG = LogManager.getLogger(SplitwiseMainController.class);
     private static final SplitwiseLogger LOG = SplitwiseLogger.getLogger();
-
     public static Map<Integer, String> groupsInMap = null;
+    private static String BEARER_TOKEN = null;
+    //    @Value("${application.userToken}")
+    //    private static String BEARER_TOKEN = "4wsrEpR8VuHZswSmVQcFLFaE4bHDRORTemDM02P9";
     //    @Value("${application.url}")
     private static String URI = "https://secure.splitwise.com/api/v3.0";
-    //    @Value("${application.userToken}")
-    private static String BEARER_TOKEN = "4wsrEpR8VuHZswSmVQcFLFaE4bHDRORTemDM02P9";
     @Autowired
     private ExcelUtilityService excelUtilityService;
 
     @Autowired
     private SplitwiseService splitwiseService;
+
+
+    public static void getBearerTokenHeader ()
+    {
+        if (BEARER_TOKEN == null)
+        {
+            try
+            {
+                BEARER_TOKEN = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+                                       .getRequest()
+                                       .getHeader("Authorization");
+                if (BEARER_TOKEN.contains("Bearer "))
+                {
+                    BEARER_TOKEN = BEARER_TOKEN.split("Bearer ")[1];
+                }
+            }
+            catch (Exception e)
+            {
+                LOG.error("The Authentication could not be completed due to incorrect credentials! The error is " + e);
+            }
+
+            LOG.info("The Authentication through the token is authorized");
+        }
+    }
 
     @GetMapping(value = "/export-splitwise-to-excel")
     public ResponseEntity<Resource> exportSplitwiseExpenses (@RequestParam("dated_after") String datedAfter, @RequestParam("dated_before") String datedBefore, @RequestParam("group_name") String groupName)
@@ -51,7 +77,7 @@ public class SplitwiseMainController
     {
         // call splitwise ctrl for collecting splitwise data
         // Call the api to list all the groups
-
+        getBearerTokenHeader();
         LOG.info("Entry to the method exportSplitwiseExpenses");
         ResponseEntity<List<User>> responseEntityUser = null;
         List<User> userDetailsList = null;
@@ -123,6 +149,7 @@ public class SplitwiseMainController
     @GetMapping(value = "/list-all-groups")
     public ResponseEntity<Map<Integer, String>> fetchAllGroupsForCurrentUser ()
     {
+        getBearerTokenHeader();
 
         String fetchURL = SplitwiseMainController.URI + "/get_groups";
 
@@ -160,7 +187,7 @@ public class SplitwiseMainController
     @GetMapping(value = "/getTotalExpense")
     public ResponseEntity<List<User>> getExpensesForCurrentUser (@RequestParam("group_id") int groupId, @RequestParam("dated_after") String datedAfter, @RequestParam("dated_before") String datedBefore, @RequestParam(value = "limit", required = false, defaultValue = "20") int limit) throws JSONException
     {
-
+        getBearerTokenHeader();
         String fetchURL = SplitwiseMainController.URI + "/get_expenses";
         StringBuilder finalURL = new StringBuilder(fetchURL);
         finalURL.append("?")
@@ -345,7 +372,7 @@ public class SplitwiseMainController
     @RequestMapping(value = "/get_current_user", method = RequestMethod.GET)
     public ResponseEntity<User> getDetails ()
     {
-
+        getBearerTokenHeader();
         String fetchURL = SplitwiseMainController.URI + "/get_current_user";
         String userToken = SplitwiseMainController.BEARER_TOKEN;
 
