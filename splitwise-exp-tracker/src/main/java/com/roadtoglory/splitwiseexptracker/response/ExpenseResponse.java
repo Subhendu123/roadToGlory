@@ -10,9 +10,11 @@ package com.roadtoglory.splitwiseexptracker.response;
 *
 */public class ExpenseResponse
 {
-    private int status;
-    private String message;
-    private Long timestamp;
+
+
+    private final int status;
+    private final String message;
+    private final Long timestamp;
 
     public ExpenseResponse (int status, String message)
     {
@@ -20,4 +22,6 @@ package com.roadtoglory.splitwiseexptracker.response;
         this.message = message;
         this.timestamp = System.currentTimeMillis();
     }
+
+
 }

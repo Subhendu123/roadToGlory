@@ -3,7 +3,6 @@ package com.roadtoglory.splitwiseexptracker.controller;
 import com.roadtoglory.splitwiseexptracker.dto.ExpenseDetailsDto;
 import com.roadtoglory.splitwiseexptracker.dto.ExtendedExpenseResponse;
 import com.roadtoglory.splitwiseexptracker.dto.SimpleExpenseResponse;
-import com.roadtoglory.splitwiseexptracker.exceptions.BadSplitInformationException;
 import com.roadtoglory.splitwiseexptracker.exceptions.IncompleteRequestException;
 import com.roadtoglory.splitwiseexptracker.models.Expense;
 import com.roadtoglory.splitwiseexptracker.response.ExpenseResponse;
@@ -39,14 +38,6 @@ public class ExpenseTrackController
     @Autowired
     private ExpenseService expenseService;
 
-    @ExceptionHandler(value = BadSplitInformationException.class)
-    public ResponseEntity<ExpenseResponse> handleException (BadSplitInformationException exc)
-    {
-        LOG.error("SplitwiseExpTrackerApplication - Some Abnormality is being encountered with!");
-        ExpenseResponse expenseErrorResponse = new ExpenseResponse(HttpStatus.BAD_REQUEST.value(), exc.getMessage());
-
-        return new ResponseEntity<>(expenseErrorResponse, HttpStatus.BAD_REQUEST);
-    }
 
     @ExceptionHandler(value = IncompleteRequestException.class)
     public ResponseEntity<ExpenseResponse> handleIncompleteRequestException (IncompleteRequestException exc)
