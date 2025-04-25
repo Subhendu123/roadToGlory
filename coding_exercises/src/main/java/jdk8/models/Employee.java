@@ -11,6 +11,10 @@ public class Employee {
         this.name = name;
     }
 
+    public boolean isManager() {
+        return this.salary > 30000 && this.age > 30;
+    }
+
     public String getName() {
         return name;
     }

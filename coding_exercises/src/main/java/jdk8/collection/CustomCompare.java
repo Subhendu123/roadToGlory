@@ -1,7 +1,7 @@
 package jdk8.collection;
 
 import jdk8.models.Employee;
-import jdk8.utils.ComparatorUtil;
+//import jdk8.utils.ComparatorUtil;
 
 import java.util.ArrayList;
 
@@ -24,12 +24,12 @@ public class CustomCompare {
 
         System.out.println("SALARY SORTING......");
 
-        employees.sort(ComparatorUtil.getEmployeeComparator("salary"));
+//        employees.sort(ComparatorUtil.getEmployeeComparator("salary"));
         employees.forEach(System.out::println);
 
         System.out.println("AGE SORTING......");
 
-        employees.sort(ComparatorUtil.getEmployeeComparator("age"));
+//        employees.sort(ComparatorUtil.getEmployeeComparator("age"));
         employees.forEach(System.out::println);
     }
 }

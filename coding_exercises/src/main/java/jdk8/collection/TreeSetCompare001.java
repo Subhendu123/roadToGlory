@@ -1,20 +1,20 @@
 package jdk8.collection;
 
-import jdk8.utils.ComparatorUtil;
+//import jdk8.utils.ComparatorUtil;
 
 import java.util.Comparator;
 import java.util.TreeSet;
 
 public class TreeSetCompare001 {
 
-    private static final Comparator<Integer> INTEGER_COMPARATOR = ComparatorUtil.getComparator(true);
+//    private static final Comparator<Integer> INTEGER_COMPARATOR = ComparatorUtil.getComparator(true);
 
     public static void main(String[] args) {
         // Approach 1
-        // TreeSet<Integer> treeSet = new TreeSet<>();
+         TreeSet<Integer> treeSet = new TreeSet<>();
 
         // Approach 2
-        TreeSet<Integer> treeSet = new TreeSet<>(INTEGER_COMPARATOR);
+//        TreeSet<Integer> treeSet = new TreeSet<>(INTEGER_COMPARATOR);
 
         treeSet.add(10);
         treeSet.add(20);
