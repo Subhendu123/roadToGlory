@@ -1,4 +1,4 @@
-package function;
+package jdk8.function;
 
 import jdk8.models.Student;
 import jdk8.utils.StudentUtil;

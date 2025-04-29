@@ -1,4 +1,4 @@
-package function;
+package jdk8.function;
 
 import java.util.function.Function;
 
