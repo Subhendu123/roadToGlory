@@ -10,6 +10,7 @@ public class Student {
         this.marks = marks;
     }
 
+
     public String getName() {
         return name;
     }
