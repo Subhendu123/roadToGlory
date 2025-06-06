@@ -11,93 +11,69 @@ import java.util.*;
 *
 *
 *
-*/public class BinaryTree
-{
+*/public class BinarySearchTree {
     public Node root;
 
-    public BinaryTree (int value)
-    {
-        if (this.root == null)
-        {
+    public BinarySearchTree(int value) {
+        if (this.root == null) {
             this.root = new Node(value);
-        }
-        else
-        {
+        } else {
             System.out.println("Please insert data");
         }
     }
 
-    private static void addChildNodesToStack (Node currNode, Stack<Node> stack)
-    {
-        if (currNode.right != null)
-        {
+    private static void addChildNodesToStack(Node currNode, Stack<Node> stack) {
+        if (currNode.right != null) {
             stack.add(currNode.right);
         }
-        if (currNode.left != null)
-        {
+        if (currNode.left != null) {
             stack.add(currNode.left);
         }
     }
 
-    public static void printTraversedBST (List<Integer> results)
-    {
-        for (Integer out : results)
-        {System.out.print(out + " ");}
+    public static void printTraversedBST(List<Integer> results) {
+        for (Integer out : results) {
+            System.out.print(out + " ");
+        }
     }
 
-    public void insert (int value)
-    {
+    public void insert(int value) {
         insert(value, this.root);
     }
 
-    private void insert (int value, Node root)
-    {
-        if (value > root.value)
-        {
-            if (root.right == null)
-            {
+    private void insert(int value, Node root) {
+        if (value > root.value) {
+            if (root.right == null) {
                 root.right = new Node(value);
-            }
-            else
-            {
+            } else {
                 insert(value, root.right);
             }
-        }
-        else
-        {
+        } else {
             // End of the tree is reached - this is the leaf node
-            if (root.left == null)
-            {
+            if (root.left == null) {
                 root.left = new Node(value);
-            }
-            else
-            {
+            } else {
                 insert(value, root.left);
             }
         }
     }
 
-    public void bfsTraversal ()
-    {
+    public void bfsTraversal() {
         bfsTraversal(this.root);
     }
 
-    private void bfsTraversal (Node root)
-    {
+    private void bfsTraversal(Node root) {
         List<Integer> results = new ArrayList<>();
         Queue<Node> queue = new LinkedList<>();
         Node itr = root;
         queue.add(itr);
-        while (!queue.isEmpty())
-        {
+        while (!queue.isEmpty()) {
             itr = queue.remove();
             results.add(itr.value);
-            if (itr.left != null)
-            {
+            if (itr.left != null) {
                 queue.add(itr.left);
             }
-            if (itr.right != null)
-            {
+            if (itr.right != null) {
                 queue.add(itr.right);
             }
             //            Older approach
@@ -107,15 +83,13 @@ import java.util.*;
 
     }
 
-    public void preOrderDFS ()
-    {
+    public void preOrderDFS() {
         Node currNode = this.root;
         Stack<Node> stack = new Stack<>();
         List<Integer> results = new ArrayList<>();
         stack.add(currNode);
 
-        while (!stack.isEmpty())
-        {
+        while (!stack.isEmpty()) {
             currNode = stack.pop();
             results.add(currNode.value);
             addChildNodesToStack(currNode, stack);
@@ -123,38 +97,30 @@ import java.util.*;
         printTraversedBST(results);
     }
 
-    public List<Integer> postOrderDFS ()
-    {
+    public List<Integer> postOrderDFS() {
         Node currNode = this.root;
         Stack<Node> stack = new Stack<>();
         List<Integer> result = new ArrayList<>();
         stack.add(currNode);
-        while (!stack.isEmpty())
-        {
+        while (!stack.isEmpty()) {
             currNode = stack.lastElement();
             boolean isChildPresent = false;
 
-            if (currNode.right != null)
-            {
-                if (result.contains(currNode.right.value))
-                {
+            if (currNode.right != null) {
+                if (result.contains(currNode.right.value)) {
                     isChildPresent = true;
-                }
-                else
-                {
+                } else {
                     stack.add(currNode.right);
                 }
             }
-            if (currNode.left != null)
-            {
-                if (result.contains(currNode.left.value))
-                {
+            if (currNode.left != null) {
+                if (result.contains(currNode.left.value)) {
                     isChildPresent = true;
+                } else {
+                    stack.add(currNode.left);
                 }
-                else {stack.add(currNode.left);}
             }
-            if ((currNode.right == null && currNode.left == null) || isChildPresent)
-            {
+            if ((currNode.right == null && currNode.left == null) || isChildPresent) {
                 // time to print
                 currNode = stack.pop();
                 result.add(currNode.value);
@@ -163,36 +129,27 @@ import java.util.*;
         return result;
     }
 
-    public List<Integer> inOrderDFS ()
-    {
+    public List<Integer> inOrderDFS() {
         Node currNode = this.root;
         Stack<Node> nodeStack = new Stack<>();
         nodeStack.add(currNode);
         List<Integer> result = new ArrayList<>();
-        while (!nodeStack.isEmpty())
-        {
+        while (!nodeStack.isEmpty()) {
             currNode = nodeStack.lastElement();
             boolean isChildPresent = false;
-            if (currNode.left != null)
-            {
-                if (result.contains(currNode.left.value))
-                {
+            if (currNode.left != null) {
+                if (result.contains(currNode.left.value)) {
                     isChildPresent = true;
-                }
-                else
-                {
+                } else {
                     nodeStack.add(currNode.left);
                 }
             }
-            if (currNode.left == null || isChildPresent)
-            {
+            if (currNode.left == null || isChildPresent) {
                 // root node to be printed as left either is written or does not exist
                 currNode = nodeStack.pop();
                 result.add(currNode.value);
-                if (currNode.right != null)
-                {
-                    if (!result.contains(currNode.right.value))
-                    {
+                if (currNode.right != null) {
+                    if (!result.contains(currNode.right.value)) {
                         nodeStack.add(currNode.right);
                     }
                 }
@@ -203,30 +160,23 @@ import java.util.*;
         return result;
     }
 
-    public void printTree ()
-    {
+    public void printTree() {
         printTree(this.root);
 
     }
 
-    private void printTree (Node root)
-    {
+    private void printTree(Node root) {
         System.out.println(root.value);
         boolean leftNodePrinted = false;
-        if (root.left != null)
-        {
+        if (root.left != null) {
             leftNodePrinted = true;
             System.out.println("/");
             printTree(root.left);
         }
-        if (root.right != null)
-        {
-            if (leftNodePrinted)
-            {
+        if (root.right != null) {
+            if (leftNodePrinted) {
                 System.out.print("\t" + "\\");
-            }
-            else
-            {
+            } else {
                 System.out.println("\t" + "\\");
             }
             printTree(root.right);

@@ -1,6 +1,6 @@
 package com.roadtoglory.ds.testing;
 
-import com.roadtoglory.ds.bst.BinaryTree;
+import com.roadtoglory.ds.bst.BinarySearchTree;
 
 import java.util.List;
 
@@ -13,30 +13,28 @@ import java.util.List;
 *
 *
 *
-*/public class BSTTest
-{
-    public static void main (String[] args)
-    {
-        BinaryTree binaryTree = new BinaryTree(50);
-        binaryTree.insert(40);
-        binaryTree.insert(30);
-        binaryTree.insert(45);
-        binaryTree.insert(80);
-        binaryTree.insert(90);
-        binaryTree.insert(65);
+*/public class BSTTest {
+    public static void main(String[] args) {
+        BinarySearchTree binarySearchTree = new BinarySearchTree(50);
+        binarySearchTree.insert(40);
+        binarySearchTree.insert(30);
+        binarySearchTree.insert(45);
+        binarySearchTree.insert(80);
+        binarySearchTree.insert(90);
+        binarySearchTree.insert(65);
         //        binaryTree.insert(55);
-        binaryTree.printTree();
+        binarySearchTree.printTree();
 
         System.out.println("BFS Traversal Result:");
-        binaryTree.bfsTraversal();
+        binarySearchTree.bfsTraversal();
         System.out.println();
         System.out.println("DFS pre-order traversal Result:");
-        binaryTree.preOrderDFS();
+        binarySearchTree.preOrderDFS();
         System.out.println("\n DFS post-order traversal Result:");
-        List<Integer> result = binaryTree.postOrderDFS();
-        BinaryTree.printTraversedBST(result);
+        List<Integer> result = binarySearchTree.postOrderDFS();
+        BinarySearchTree.printTraversedBST(result);
         System.out.println("\n DFS in-order traversal Result:");
-        result = binaryTree.inOrderDFS();
-        BinaryTree.printTraversedBST(result);
+        result = binarySearchTree.inOrderDFS();
+        BinarySearchTree.printTraversedBST(result);
     }
 }
