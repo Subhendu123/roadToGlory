@@ -29,8 +29,7 @@ import java.util.List;
 */
 @RestController
 @RequestMapping("/testingexp")
-public class ExpenseTrackController
-{
+public class ExpenseTrackController {
 
 
     private static final Logger LOG = LogManager.getLogger(ExpenseTrackController.class);
@@ -40,45 +39,53 @@ public class ExpenseTrackController
 
 
     @ExceptionHandler(value = IncompleteRequestException.class)
-    public ResponseEntity<ExpenseResponse> handleIncompleteRequestException (IncompleteRequestException exc)
-    {
+    public ResponseEntity<ExpenseResponse> handleIncompleteRequestException(IncompleteRequestException exc) {
         ExpenseResponse expenseErrorResponse = new ExpenseResponse(HttpStatus.BAD_REQUEST.value(), exc.getMessage());
 
         return new ResponseEntity<>(expenseErrorResponse, HttpStatus.BAD_REQUEST);
     }
 
+    /*
+
+        Without the Getter-setter in the ExpenseResponse class, we were getting the following error for the successful case:
+        org.springframework.http.converter.HttpMessageNotWritableException:
+        No converter for [class com.roadtoglory.splitwiseexptracker.response.ExpenseResponse] with preset Content-Type 'null'
+     */
+
+
     @PostMapping(value = "/add", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String addExpense (@RequestBody ExpenseDetailsDto expenseDetailsDto)
-    {
+    public ResponseEntity<ExpenseResponse> addExpense(@RequestBody ExpenseDetailsDto expenseDetailsDto) {
         LOG.debug("SplitwiseExpTrackerApplication - Adding an expense..");
+//        try {
+
         expenseService.addExpense(expenseDetailsDto);
         LOG.info("SplitwiseExpTrackerApplication - Expense Added Successfully");
         String message = "Expense Added Successfully";
-        //        ExpenseResponse expenseResponse = new ExpenseResponse(HttpStatus.CREATED.value(),
-        //                message);
-        return message;
+        ExpenseResponse expenseResponse = new ExpenseResponse(HttpStatus.CREATED.value(),
+                message);
+        return new ResponseEntity<ExpenseResponse>(expenseResponse, HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/getExpenses")
-    public List<Expense> getExpensesForGroup (@RequestParam("group_id") int groupId)
-    {
+    public List<Expense> getExpensesForGroup(@RequestParam("group_id") int groupId) {
         LOG.debug("SplitwiseExpTrackerApplication - Fetching Expenses for a group..");
 
         return expenseService.findAllExpensesForGroup(groupId);
     }
 
     @GetMapping(value = "/getExpenses/individual")
-    public SimpleExpenseResponse getExpensesForGroup (@RequestParam("group_id") int groupId, @RequestParam("user_id") int userId)
-    {
-        LOG.debug("SplitwiseExpTrackerApplication - Fetching Expenses for an individual with id " + userId + " under " + "a group having id " + groupId);
+    public SimpleExpenseResponse getExpensesForGroup(
+            @RequestParam("group_id") int groupId, @RequestParam("user_id") int userId) {
+        LOG.debug(
+                "SplitwiseExpTrackerApplication - Fetching Expenses for an individual with id " + userId + " under " + "a group having id " + groupId);
 
         return expenseService.findIndExpDetailsForUserInGroup(userId, groupId);
     }
 
     @GetMapping(value = "/getExpenses/evaluated")
-    public List<ExtendedExpenseResponse> getEvaluatedExpenses (@RequestParam("group_id") int groupId)
-    {
-        LOG.debug("SplitwiseExpTrackerApplication - Fetching Expenses for all members under a group having id " + groupId);
+    public List<ExtendedExpenseResponse> getEvaluatedExpenses(@RequestParam("group_id") int groupId) {
+        LOG.debug(
+                "SplitwiseExpTrackerApplication - Fetching Expenses for all members under a group having id " + groupId);
 
         return expenseService.evaluateSplitDetails(groupId);
     }
