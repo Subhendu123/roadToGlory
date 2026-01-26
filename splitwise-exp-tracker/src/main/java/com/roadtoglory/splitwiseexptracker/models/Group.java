@@ -16,11 +16,11 @@ import java.time.LocalDateTime;
 *
 *
 *
+*
 */
 @Entity
 @Table(name = "group_details")
-public class Group
-{
+public class Group {
     @Id
     //    @GeneratedValue(strategy = GenerationType.AUTO) - Will be used in case of the seq is created by us
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,7 +40,7 @@ public class Group
     @Column(name = "user_id_list")
     private String userIdList;
 
-    @Column(name="created_by")
+    @Column(name = "created_by")
     private int createdById;
 
     @Column(name = "active_status")
@@ -54,93 +54,75 @@ public class Group
     @UpdateTimestamp
     private LocalDateTime updateDate;
 
-    public int getId ()
-    {
+    public int getId() {
         return id;
     }
 
-    public void setId (int id)
-    {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public Types getType ()
-    {
+    public Types getType() {
         return type;
     }
 
-    public void setType (Types type)
-    {
+    public void setType(Types type) {
         this.type = type;
     }
 
-    public String getName ()
-    {
+    public String getName() {
         return name;
     }
 
-    public void setName (String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String getDescription ()
-    {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription (String description)
-    {
+    public void setDescription(String description) {
         this.description = description;
     }
 
-    public String getUserIdList ()
-    {
+    public String getUserIdList() {
         return userIdList;
     }
 
-    public void setUserIdList (String userIdList)
-    {
+    public void setUserIdList(String userIdList) {
         this.userIdList = userIdList;
     }
 
-    public int getCreatedById ()
-    {
+    public int getCreatedById() {
         return createdById;
     }
 
-    public void setCreatedById (int createdById)
-    {
+    public void setCreatedById(int createdById) {
         this.createdById = createdById;
     }
 
-    public boolean isStatus ()
-    {
+    public boolean isStatus() {
         return status;
     }
 
-    public void setStatus (boolean status)
-    {
+    public void setStatus(boolean status) {
         this.status = status;
     }
 
-    public LocalDateTime getCreateDate ()
-    {
+    public LocalDateTime getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate (LocalDateTime createDate)
-    {
+    public void setCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
     }
 
-    public LocalDateTime getUpdateDate ()
-    {
+    public LocalDateTime getUpdateDate() {
         return updateDate;
     }
 
-    public void setUpdateDate (LocalDateTime updateDate)
-    {
+    public void setUpdateDate(LocalDateTime updateDate) {
         this.updateDate = updateDate;
     }
 }

@@ -1,5 +1,65 @@
-My Component
+<div class="greybackground">
 
-<h1>
-  This is the app component!
-</h1>
+
+
+<div class="row">
+<div class="col-md-3" style="margin-top: 2%;margin-left: .1%;">
+        <button type="submit" class="btn btn-primary btn-lg btn-block"
+         (click)="open('basic')">Show Basic Concepts</button>
+</div>
+<div class="col-md-1"></div>
+<div class="col-md-3" style="margin-top: 2%;margin-left: .1%;">
+        <button type="submit" class="btn btn-primary btn-lg btn-block"
+         (click)="open('template')">Template Driven Form</button>
+</div>
+<div class="col-md-1"></div>
+<div class="col-md-3" style="margin-top: 2%;margin-left: .1%;">
+        <button type="submit" class="btn btn-primary btn-lg btn-block"
+         (click)="open('http')">Learn Http Services</button>
+</div>
+</div>
+
+
+
+
+<div class="row" *ngIf="selection.showBasics">
+      <div class="row col-md-3" style="margin-top: 2%;margin-left: .1%;">
+        <button type="submit" class="btn btn-primary btn-lg btn-block"
+         (click)="generateCourses()">Generate Courses</button>
+</div>
+
+<app-courses [coursesList]="courseList" (deleteCourseEvt)="deleteCourse($event)">
+  <!-- <div>Course Module by Content Projection</div> -->
+  <ng-container>Course Module by ng-container</ng-container>
+  <!-- <div answer> Is it a question?</div> -->
+</app-courses>
+
+</div>
+
+<div class="row" *ngIf="selection.showTemplateForm">
+  <template-driven-form></template-driven-form>
+</div>
+
+<div class="row" *ngIf="selection.showHttpServices">
+
+  <backend-comm></backend-comm>
+</div>
+<div *ngIf="isEnabled" class="row" style="margin-top: 2%;">
+  <div class="col-md-3"></div>
+
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header text-center">
+        <h2>Splitwise Excel File Generator</h2>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">Require the below details</h5>
+        <app-custom-form></app-custom-form>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+

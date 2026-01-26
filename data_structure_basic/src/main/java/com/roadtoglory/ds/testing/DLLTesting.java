@@ -3,6 +3,7 @@ package com.roadtoglory.ds.testing;
 import com.roadtoglory.ds.hashtable.Hashtable;
 import com.roadtoglory.ds.linkedlists.DoublyLinkedListImpl;
 import com.roadtoglory.ds.linkedlists.LinkedListImpl;
+import com.roadtoglory.ds.trees.BinaryTreeImpl;
 
 
 /*
@@ -13,12 +14,10 @@ import com.roadtoglory.ds.linkedlists.LinkedListImpl;
 *
 *
 *
-*/public class DLLTesting
-{
+*/public class DLLTesting {
 
 
-    public static void main (String[] args)
-    {
+    public static void main(String[] args) {
         DoublyLinkedListImpl doublyLinkedList = new DoublyLinkedListImpl(10);
         doublyLinkedList.append(20);
         doublyLinkedList.append(30);
@@ -47,12 +46,10 @@ import com.roadtoglory.ds.linkedlists.LinkedListImpl;
         *
         *
         *
-        */public static class LinkedListLeetCodeTesting
-    {
+        */public static class LinkedListLeetCodeTesting {
 
 
-        public static void main (String[] args)
-        {
+        public static void main(String[] args) {
             LinkedListImpl myLinkedList = new LinkedListImpl(1);
             myLinkedList.append(2);
             myLinkedList.append(3);
@@ -69,12 +66,10 @@ import com.roadtoglory.ds.linkedlists.LinkedListImpl;
 
     }
 
-    public static class HTTesting
-    {
+    public static class HTTesting {
 
 
-        public static void main (String[] args)
-        {
+        public static void main(String[] args) {
             Hashtable hashtable = new Hashtable();
             hashtable.insert("A", 10);
             hashtable.insert("B", 20);
@@ -89,4 +84,27 @@ import com.roadtoglory.ds.linkedlists.LinkedListImpl;
     }
 
 
+    public static class BinaryTreeInvocation {
+
+        public static void main(String[] args) {
+            BinaryTreeImpl binaryTree = new BinaryTreeImpl(10);
+            binaryTree.add(25, "left");
+            binaryTree.add(54, "right"); // actually right
+            binaryTree.add(12, "left");
+            binaryTree.add(21, "left");
+            binaryTree.add(32, "right");
+            binaryTree.add(42, "right");
+            binaryTree.add(33, "left");
+            binaryTree.add(55, "right");
+            binaryTree.add(65, "right");
+            System.out.println("The In Order Traversal using the Recursion....");
+            binaryTree.orderedTraversal("preorder");
+            System.out.println("\nThe In Order Traversal using Iterative method...");
+            binaryTree.iterTraversal("preorder");
+            System.out.println();
+            System.out.println("Printing the tree with level order..");
+            binaryTree.print();
+            System.out.println();
+        }
+    }
 }

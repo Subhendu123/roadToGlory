@@ -56,8 +56,6 @@ public class ExpenseTrackController {
     @PostMapping(value = "/add", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ExpenseResponse> addExpense(@RequestBody ExpenseDetailsDto expenseDetailsDto) {
         LOG.debug("SplitwiseExpTrackerApplication - Adding an expense..");
-//        try {
-
         expenseService.addExpense(expenseDetailsDto);
         LOG.info("SplitwiseExpTrackerApplication - Expense Added Successfully");
         String message = "Expense Added Successfully";
@@ -69,7 +67,6 @@ public class ExpenseTrackController {
     @GetMapping(value = "/getExpenses")
     public List<Expense> getExpensesForGroup(@RequestParam("group_id") int groupId) {
         LOG.debug("SplitwiseExpTrackerApplication - Fetching Expenses for a group..");
-
         return expenseService.findAllExpensesForGroup(groupId);
     }
 
