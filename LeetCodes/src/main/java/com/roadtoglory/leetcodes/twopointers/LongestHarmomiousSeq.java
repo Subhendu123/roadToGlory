@@ -3,7 +3,7 @@
  * This is created and managed by $(git config user.name)
  */
 
-package com.roadtoglory.practice.twopointers;
+package com.roadtoglory.leetcodes.twopointers;
 /*
 *
 *

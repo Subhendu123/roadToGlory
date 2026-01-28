@@ -3,7 +3,7 @@
  * This is created and managed by $(git config user.name)
  */
 
-package com.roadtoglory.practice.twopointers;
+package com.roadtoglory.leetcodes.twopointers;
 /*
 *
 *
@@ -21,7 +21,7 @@ public class AvgSubArrayK {
 
     public static void main(String[] args) {
         int[] numsInp = {1, 12, -5, -6, 50, 3};
-       
+
         System.out.println(new AvgSubArrayK().findMaxAverage(numsInp, 6514));
     }
 
