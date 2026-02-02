@@ -13,19 +13,15 @@ import java.util.List;
 *
 *
 *
-*/public class Graph
-{
+*/public class GraphV1 {
     public HashMap<String, List<String>> adjList = null;
 
-    Graph ()
-    {
+    GraphV1() {
         if (adjList == null) adjList = new HashMap<>();
     }
 
-    public boolean addVertex (String vertex)
-    {
-        if (adjList.get(vertex) == null)
-        {
+    public boolean addVertex(String vertex) {
+        if (adjList.get(vertex) == null) {
             // new one
             adjList.put(vertex, new ArrayList<>());
             return true;
@@ -33,10 +29,8 @@ import java.util.List;
         return false;
     }
 
-    public void addEdge (String existingV, String appendV)
-    {
-        if (adjList.get(existingV) != null && adjList.get(appendV) != null)
-        {
+    public void addEdge(String existingV, String appendV) {
+        if (adjList.get(existingV) != null && adjList.get(appendV) != null) {
             List<String> edgesInVertex = adjList.get(existingV);
             edgesInVertex.add(appendV);
             //  addVertex(appendV);
@@ -46,15 +40,12 @@ import java.util.List;
         }
     }
 
-    public void printGraph ()
-    {
+    public void printGraph() {
         System.out.println(adjList);
     }
 
-    public boolean removeVertex (String vertex)
-    {
-        if (adjList.get(vertex) != null)
-        {
+    public boolean removeVertex(String vertex) {
+        if (adjList.get(vertex) != null) {
             adjList.remove(vertex);
             adjList.values().stream().forEach(s -> s.remove(vertex));
             return true;

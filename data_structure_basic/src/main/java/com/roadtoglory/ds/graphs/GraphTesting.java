@@ -8,11 +8,9 @@ package com.roadtoglory.ds.graphs;
 *
 *
 *
-*/public class GraphTesting
-{
-    public static void main (String[] args)
-    {
-        Graph graph = new Graph();
+*/public class GraphTesting {
+    public static void main(String[] args) {
+        GraphV1 graph = new GraphV1();
         graph.addVertex("A");
         graph.addVertex("E");
         graph.addVertex("C");
