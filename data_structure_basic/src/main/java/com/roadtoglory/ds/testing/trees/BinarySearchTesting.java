@@ -1,4 +1,9 @@
-package com.roadtoglory.ds.testing;
+/*
+ * Copyright (c) 2026.
+ * This is created and managed by $(git config user.name)
+ */
+
+package com.roadtoglory.ds.testing.trees;
 
 import com.roadtoglory.ds.search.BinarySearch;
 
@@ -14,12 +19,10 @@ import com.roadtoglory.ds.search.BinarySearch;
 *
 *
 */
-public class BinarySearchTesting
-{
+public class BinarySearchTesting {
 
 
-    public static void main (String[] args)
-    {
+    public static void main(String[] args) {
         BinarySearch binarySearch = new BinarySearch();
         int[] input = {10, 20, 25, 30, 40, 50, 55, 60};
         binarySearch.setInput(input);

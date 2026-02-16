@@ -1,4 +1,9 @@
-package com.roadtoglory.ds.testing;
+/*
+ * Copyright (c) 2026.
+ * This is created and managed by $(git config user.name)
+ */
+
+package com.roadtoglory.ds.testing.basics;
 
 import com.roadtoglory.ds.matrices.LowerTriangularMatrix;
 
@@ -14,18 +19,14 @@ import com.roadtoglory.ds.matrices.LowerTriangularMatrix;
 *
 *
 */
-public class MatrixTesting
-{
+public class MatrixTesting {
 
 
-    public static void main (String[] args)
-    {
+    public static void main(String[] args) {
         int size = 5;
         LowerTriangularMatrix lowerTriangularMatrix = new LowerTriangularMatrix(5);
-        for (int i = 1; i <= size; i++)
-        {
-            for (int j = 1; j <= i; j++)
-            {
+        for (int i = 1; i <= size; i++) {
+            for (int j = 1; j <= i; j++) {
                 lowerTriangularMatrix.set(i, j, 10 * i + j * 5);
             }
         }
@@ -42,8 +43,7 @@ public class MatrixTesting
 
         int[] res = lowerTriangularMatrix.rowMajorRepresentation();
         System.out.println();
-        for (int i = 0; i < res.length; i++)
-        {
+        for (int i = 0; i < res.length; i++) {
             System.out.print(res[i] + " ,");
         }
     }

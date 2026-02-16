@@ -1,4 +1,9 @@
-package com.roadtoglory.ds.testing;
+/*
+ * Copyright (c) 2026.
+ * This is created and managed by $(git config user.name)
+ */
+
+package com.roadtoglory.ds.testing.lls;
 
 
 import com.roadtoglory.ds.linkedlists.LinkedListImpl;
@@ -14,12 +19,10 @@ import com.roadtoglory.ds.linkedlists.LinkedListUtil;
 *
 *
 */
-public class LinkedListTest
-{
+public class LinkedListTest {
 
 
-    public static void main (String[] args)
-    {
+    public static void main(String[] args) {
         LinkedListImpl linkedListImpl = new LinkedListImpl(60);
         linkedListImpl.append(23);
         linkedListImpl.append(10);

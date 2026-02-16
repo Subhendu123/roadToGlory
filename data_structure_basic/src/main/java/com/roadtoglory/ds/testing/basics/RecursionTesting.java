@@ -1,4 +1,9 @@
-package com.roadtoglory.ds.testing;
+/*
+ * Copyright (c) 2026.
+ * This is created and managed by $(git config user.name)
+ */
+
+package com.roadtoglory.ds.testing.basics;
 
 import com.roadtoglory.ds.recursion.RecursionExamples;
 import org.apache.logging.log4j.LogManager;
@@ -16,14 +21,12 @@ import org.apache.logging.log4j.Logger;
 *
 *
 */
-public class RecursionTesting
-{
+public class RecursionTesting {
 
 
     private static Logger LOG = LogManager.getLogger(RecursionTesting.class);
 
-    public static void main (String[] args)
-    {
+    public static void main(String[] args) {
         LOG.info("Starting the recursion testing...");
         //        RecursionFunction function = new RecursionFunction();
         //        function.recur(3);

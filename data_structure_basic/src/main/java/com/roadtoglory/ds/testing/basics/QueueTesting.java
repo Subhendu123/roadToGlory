@@ -1,4 +1,9 @@
-package com.roadtoglory.ds.testing;
+/*
+ * Copyright (c) 2026.
+ * This is created and managed by $(git config user.name)
+ */
+
+package com.roadtoglory.ds.testing.basics;
 
 import com.roadtoglory.ds.stackq.Queue;
 
@@ -11,10 +16,8 @@ import com.roadtoglory.ds.stackq.Queue;
 *
 *
 *
-*/public class QueueTesting
-{
-    public static void main (String[] args)
-    {
+*/public class QueueTesting {
+    public static void main(String[] args) {
         Queue queue = new Queue(1);
         queue.add(2);
         queue.add(3);

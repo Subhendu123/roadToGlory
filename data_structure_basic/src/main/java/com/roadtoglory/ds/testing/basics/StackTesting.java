@@ -1,4 +1,9 @@
-package com.roadtoglory.ds.testing;
+/*
+ * Copyright (c) 2026.
+ * This is created and managed by $(git config user.name)
+ */
+
+package com.roadtoglory.ds.testing.basics;
 
 import com.roadtoglory.ds.stackq.Stack;
 import com.roadtoglory.ds.stackq.StackUsingArray;
@@ -12,19 +17,15 @@ import com.roadtoglory.ds.stackq.StackUsingArray;
 *
 *
 *
-*/public class StackTesting
-{
+*/public class StackTesting {
 
 
-    public static void main (String[] args)
-    {
+    public static void main(String[] args) {
         boolean useArray = true;
-        if (useArray)
-        {
+        if (useArray) {
             executeStackUsingArray();
         }
-        else
-        {
+        else {
             Stack stack = new Stack(10);
             stack.push(20);
             stack.push(30);
@@ -48,8 +49,7 @@ import com.roadtoglory.ds.stackq.StackUsingArray;
         }
     }
 
-    public static void executeStackUsingArray ()
-    {
+    public static void executeStackUsingArray() {
         StackUsingArray stack = new StackUsingArray(10);
         stack.push(20);
         stack.push(30);

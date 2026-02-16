@@ -1,4 +1,9 @@
-package com.roadtoglory.ds.testing;
+/*
+ * Copyright (c) 2026.
+ * This is created and managed by $(git config user.name)
+ */
+
+package com.roadtoglory.ds.testing.basics;
 
 import java.util.Random;
 
@@ -14,12 +19,10 @@ import java.util.Random;
 *
 *
 */
-public class StackMemoryExample
-{
+public class StackMemoryExample {
 
 
-    public static void main (String[] args)
-    {
+    public static void main(String[] args) {
         int randomNumber = getRandomNumber();
         System.out.println("The random number is " + randomNumber);
         int modifiedRN = modifyNumber(randomNumber);
@@ -28,18 +31,15 @@ public class StackMemoryExample
         System.out.println("The calculate number is " + finalNumber);
     }
 
-    private static int calculateNumber (int modifiedRN)
-    {
+    private static int calculateNumber(int modifiedRN) {
         return modifiedRN > 0 ? modifiedRN * 2 : modifiedRN * 4;
     }
 
-    private static int modifyNumber (int randomNumber)
-    {
+    private static int modifyNumber(int randomNumber) {
         return randomNumber > 0 ? randomNumber * 5 : randomNumber / 2;
     }
 
-    private static int getRandomNumber ()
-    {
+    private static int getRandomNumber() {
         Random random = new Random();
         return random.nextInt(5);
     }

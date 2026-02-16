@@ -9,6 +9,8 @@ package com.roadtoglory.ds.graphs;
 *
 
 This class GraphV3 is created and managed by subhe
+*
+* This is an Undirected Graph Implementation with List of List approach
 Created on 02-02-2026 at 21:20 for the project Udemy Graph Impl
 
 *

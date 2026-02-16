@@ -3,7 +3,7 @@
  * This is created and managed by $(git config user.name)
  */
 
-package com.roadtoglory.ds.testing;
+package com.roadtoglory.ds.testing.graphs;
 /*
 *
 *
