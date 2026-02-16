@@ -33,5 +33,8 @@ public class GraphV2Testing {
         graphV2.printGraph();
 
         System.out.println("\n BFS Traversal Results: " + graphV2.bfsTraversal(2));
+        System.out.println("\n ");
+        System.out.println("\n DFS Traversal Results: " + graphV2.dfsTraversal());
+
     }
 }

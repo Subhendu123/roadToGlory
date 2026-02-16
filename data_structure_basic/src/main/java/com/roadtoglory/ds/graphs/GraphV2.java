@@ -21,6 +21,7 @@ public class GraphV2 {
 
     private static Map<Integer, List<Integer>> graphData = null;
     private boolean isUndirected = false;
+    private List<String> callStack;
 
     public GraphV2() {
         new GraphV2(true);
@@ -39,7 +40,6 @@ public class GraphV2 {
     public void createGraphWithList(int[] input) {
 
     }
-
 
     public void addEdge(int vertex, int edge) {
         // check if the vertex is already added
@@ -73,6 +73,49 @@ public class GraphV2 {
             // vertex does not exist
             graphData.put(vertex, new ArrayList<>());
         }
+    }
+
+    public List<Integer> dfsTraversal() {
+        HashMap<Integer, Boolean> visitedVertices = new HashMap<>();
+        List<Integer> result = new ArrayList<>(graphData.size());
+        for (Integer key : graphData.keySet()) {
+            if (callStack == null) {
+                callStack = new Stack<>();
+            }
+            callStack.add("dfsTraversal(" + key + ")");
+            dfsTraversal(key, visitedVertices, result);
+        }
+        System.out.println(callStack);
+        System.out.println();
+        return result;
+
+    }
+
+    private void dfsTraversal(Integer key, HashMap<Integer, Boolean> visitedVertices, List<Integer> result) {
+
+        if (visitedVertices.containsKey(key)) {
+            return;
+        }
+
+        if (callStack == null) {
+            callStack = new ArrayList<>(graphData.size());
+        }
+
+        result.add(key);
+        visitedVertices.put(key, true);
+
+        List<Integer> childVertices = graphData.get(key);
+        if (childVertices == null || childVertices.isEmpty()) {
+            return;
+        }
+        for (Integer child : childVertices) {
+            if (!visitedVertices.containsKey(child)) {
+                dfsTraversal(child, visitedVertices, result);
+                callStack.add(".dfsTraversal(" + child + ")");
+//                System.out.println("--> dfsTraversal(" + child + ")");
+            }
+        }
+
     }
 
     public List<Integer> bfsTraversal(int sourceVertex) {
