@@ -11,6 +11,7 @@ package com.roadtoglory.ds.graphs;
 This class GraphV4 is created and managed by subhe
 Created on 05-02-2026 at 06:47 for the project Udemy Directed Graph implementation
 
+* ***************** DIRECTED GRAPH *****************************
 *
 *
 */
@@ -19,6 +20,7 @@ import java.util.*;
 
 public class GraphV4 {
 
+    public static final int COUNTER = -1;
     private static int count = 0;
     private static List<List<Integer>> result = new ArrayList<>();
     private static Integer resultArrIndex = 0;
@@ -53,6 +55,134 @@ public class GraphV4 {
             System.out.println("[ " + i + " -> " + this.dirAdjList.get(i) + " ]");
         }
     }
+
+    public void printGraph(List<List<Integer>> directedGraph) {
+        for (int i = 0; i < directedGraph.size(); i++) {
+            System.out.println("[ " + i + " -> " + directedGraph.get(i) + " ]");
+        }
+    }
+
+    public List<Integer> dfsTraversalBasic() {
+
+        List<Integer> result = new ArrayList<>();
+        boolean[] visitedNodes = new boolean[this.dirAdjList.size()];
+        Arrays.fill(visitedNodes, false);
+
+
+        for (int i = 0; i < this.dirAdjList.size(); i++) {
+            dfsTraversal(result, i, visitedNodes);
+        }
+        return result;
+
+    }
+
+    public Stack<Integer> dfsTraversalBasic(boolean isRev) {
+
+        Stack<Integer> result = new Stack<>();
+        boolean[] visitedNodes = new boolean[this.dirAdjList.size()];
+        Arrays.fill(visitedNodes, false);
+
+
+        for (int i = 0; i < this.dirAdjList.size(); i++) {
+            dfsTraversalRev(result, i, visitedNodes);
+        }
+        return result;
+
+    }
+
+    private void dfsTraversalRev(Stack<Integer> result, int vertex, boolean[] visitedNodes) {
+
+
+        for (Integer neighbour : this.dirAdjList.get(vertex)) {
+            if (!visitedNodes[neighbour]) {
+                dfsTraversal(result, neighbour, visitedNodes);
+            }
+        }
+
+        // All children Done - now print the main vertex
+        if (!visitedNodes[vertex]) {
+            // First Time Traversing through this element
+            result.push(vertex);
+            visitedNodes[vertex] = true;
+        }
+
+    }
+
+    private void dfsTraversal(List<Integer> result, int vertex, boolean[] visitedNodes) {
+
+        if (!visitedNodes[vertex]) {
+            // First Time Traversing through this element
+            result.add(vertex);
+            visitedNodes[vertex] = true;
+        }
+        for (Integer neighbour : this.dirAdjList.get(vertex)) {
+            if (!visitedNodes[neighbour]) {
+                dfsTraversal(result, neighbour, visitedNodes);
+            }
+        }
+
+    }
+
+    public List<List<Integer>> sccKosaraju() {
+
+        Stack<Integer> dfsRev = dfsTraversalBasic(true);
+        List<List<Integer>> result = new ArrayList<>();
+        System.out.println("dfs Rev " + dfsRev);
+
+        List<List<Integer>> transposeGraphList = new ArrayList<>(this.dirAdjList.size());
+
+        for (int i = 0; i < this.dirAdjList.size(); i++) {
+            transposeGraphList.add(i, new ArrayList<>());
+        }
+
+        for (int i = 0; i < this.dirAdjList.size(); i++) {
+            List<Integer> neighbours = this.dirAdjList.get(i);
+            for (Integer neighbour : neighbours) {
+                transposeGraphList.get(neighbour).add(i);
+            }
+        }
+        System.out.println("The transpose graph ");
+        printGraph(transposeGraphList);
+
+        boolean[] visitedNodes = new boolean[transposeGraphList.size()];
+        Arrays.fill(visitedNodes, false);
+
+        int scc_counter = -1;
+        for (Integer vertex : dfsRev) {
+            if (!visitedNodes[vertex]) {
+                scc_counter++;
+                result.add(new ArrayList<>());
+                dfsTraversalOfTransG(result, scc_counter, vertex, visitedNodes, transposeGraphList);
+            }
+        }
+//        while (!dfsRev.empty()) {
+//            Integer vertex = dfsRev.peek();
+//            dfsRev.pop();
+//            scc_counter++;
+//            result.add(new ArrayList<>());
+//            dfsTraversalOfTransG(result, scc_counter, vertex, visitedNodes, transposeGraphList);
+//        }
+        System.out.println("SCC Count " + scc_counter);
+        return result;
+
+    }
+
+    private void dfsTraversalOfTransG(List<List<Integer>> result, Integer counter, Integer vertex,
+                                      boolean[] visitedNodes,
+                                      List<List<Integer>> transposeGraphList) {
+
+        if (visitedNodes[vertex]) {
+            return;
+        }
+        result.get(counter).add(vertex);
+        visitedNodes[vertex] = true;
+
+        List<Integer> reachableNeighbours = transposeGraphList.get(vertex);
+        for (Integer neighbour : reachableNeighbours) {
+            dfsTraversalOfTransG(result, counter, neighbour, visitedNodes, transposeGraphList);
+        }
+    }
+
 
     public List<List<Integer>> dfsTraversal() {
         Boolean[] visitedNodes = new Boolean[this.dirAdjList.size()];

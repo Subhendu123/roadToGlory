@@ -172,6 +172,24 @@ public class GraphV5JunitTesting {
 
     }
 
+    @Test
+    @Order(7)
+    public void shortest_path_Dijkstra_tc_06() {
+        GraphV5 graph = new GraphV5();
+        graph.add(0);
+        graph.add(0, 1, 5);
+        graph.add(0, 2, 2);
+        graph.add(2, 1, -10);
+        graph.printGraph();
+        Integer[] shortestDistanceArr = graph.dijkstraShortestDistance();
+        for (int i = 0; i < shortestDistanceArr.length; i++) {
+            System.out.println(i + " -> " + shortestDistanceArr[i]);
+        }
+        assertEquals(shortestDistanceArr[0], 0);
+        assertEquals(shortestDistanceArr[1], -8);
+        assertEquals(shortestDistanceArr[2], -5);
+    }
+
 
     // King of King Test case
     @Test

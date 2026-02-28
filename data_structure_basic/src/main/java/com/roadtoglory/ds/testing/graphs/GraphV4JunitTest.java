@@ -154,6 +154,9 @@ class GraphV4JunitTest {
         List<List<Integer>> trave = graph.dfsTraversal();
         System.out.println("tr: \n " + trave);
 
+        List<Integer> basicDFSTraversal = graph.dfsTraversalBasic();
+        System.out.println("baseic dfs " + basicDFSTraversal);
+
 //        assertFalse(graph.dfsTraversal(), "Graph should NOT have a cycle");
 
         List<Integer> topo = graph.topologicalSort();
@@ -168,6 +171,20 @@ class GraphV4JunitTest {
         assertTrue(topo.contains(2));
         assertTrue(topo.contains(3));
         assertTrue(topo.contains(4));
+    }
+
+    @Test
+    void kosaraju_Case001() {
+        GraphV4 graph = new GraphV4();
+        graph.insert(0);
+        graph.insert(0, 1);
+        graph.insert(1, 2);
+        graph.insert(2, 0);
+        graph.insert(1, 3);
+        graph.insert(3, 4);
+        graph.printGraph();
+        List<List<Integer>> kosaraju = graph.sccKosaraju();
+        System.out.println("kosaraju: " + kosaraju);
     }
 
     @Test
