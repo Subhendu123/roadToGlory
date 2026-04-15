@@ -16,7 +16,7 @@ Created on 08-02-2026 at 08:49 for the project udemy graph impl
 */
 
 
-import com.roadtoglory.ds.graphs.GraphV4;
+import com.roadtoglory.ds.graphs.DirectedGraph;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -32,7 +32,7 @@ class GraphV4JunitTest {
     @Test
     void testGraphSet1_ShouldDetectCycle() {
 
-        GraphV4 graph = new GraphV4();
+        DirectedGraph graph = new DirectedGraph();
 
         graph.insert(0);
         graph.insert(0, 1);
@@ -46,7 +46,7 @@ class GraphV4JunitTest {
     @Test
     void testGraphSet2_ShouldDetectCycle() {
 
-        GraphV4 graph = new GraphV4();
+        DirectedGraph graph = new DirectedGraph();
 
         graph.insert(0);
         graph.insert(0, 1);
@@ -63,7 +63,7 @@ class GraphV4JunitTest {
     @Test
     void testGraph3_No_Cycle() {
 
-        GraphV4 graph = new GraphV4();
+        DirectedGraph graph = new DirectedGraph();
 
         graph.insert(0);
         graph.insert(0, 1);
@@ -84,7 +84,7 @@ class GraphV4JunitTest {
     @Test
     void testGraphSet2_ShouldNotHaveCycle() {
 
-        GraphV4 graph = new GraphV4();
+        DirectedGraph graph = new DirectedGraph();
 
         graph.insert(0);
         graph.insert(0, 1);
@@ -102,7 +102,7 @@ class GraphV4JunitTest {
     @Test
     void testGraphSet3_ShouldDetectCycle() {
 
-        GraphV4 graph = new GraphV4();
+        DirectedGraph graph = new DirectedGraph();
 
         graph.insert(0);
         graph.insert(0, 1);
@@ -123,7 +123,7 @@ class GraphV4JunitTest {
     @Test
     void testGraphSet4_ShouldDetectCycle() {
 
-        GraphV4 graph = new GraphV4();
+        DirectedGraph graph = new DirectedGraph();
 
         graph.insert(0);
         graph.insert(0, 1);
@@ -144,7 +144,7 @@ class GraphV4JunitTest {
     @Test
     void traversalAndTopo_Case001() {
 
-        GraphV4 graph = new GraphV4();
+        DirectedGraph graph = new DirectedGraph();
         graph.insert(0);
         graph.insert(0, 1);
         graph.insert(0, 2);
@@ -175,7 +175,7 @@ class GraphV4JunitTest {
 
     @Test
     void kosaraju_Case001() {
-        GraphV4 graph = new GraphV4();
+        DirectedGraph graph = new DirectedGraph();
         graph.insert(0);
         graph.insert(0, 1);
         graph.insert(1, 2);
@@ -190,7 +190,7 @@ class GraphV4JunitTest {
     @Test
     void dfsTraversal_Case002() {
 
-        GraphV4 graph = new GraphV4();
+        DirectedGraph graph = new DirectedGraph();
         graph.insert(0);
         graph.insert(0, 1);
         graph.insert(1, 2);
@@ -215,7 +215,7 @@ class GraphV4JunitTest {
     @Test
     void testTopology_Set2() {
 
-        GraphV4 graph = new GraphV4();
+        DirectedGraph graph = new DirectedGraph();
 
         graph.insert(0);
         graph.insert(0, 1);
@@ -245,7 +245,7 @@ class GraphV4JunitTest {
     @Test
     void testTopology_Set3() {
 
-        GraphV4 graph = new GraphV4();
+        DirectedGraph graph = new DirectedGraph();
 
         graph.insert(0);
         graph.insert(0, 1);
@@ -265,7 +265,7 @@ class GraphV4JunitTest {
     @Test
     void testTopology_Set4() {
 
-        GraphV4 graph = new GraphV4();
+        DirectedGraph graph = new DirectedGraph();
 
         graph.insert(0);
         graph.insert(1);
@@ -285,7 +285,7 @@ class GraphV4JunitTest {
     @Test
     void shortestDistance_Set001() {
 
-        GraphV4 graph = new GraphV4();
+        DirectedGraph graph = new DirectedGraph();
 
         graph.insert(0);
         graph.insert(1);

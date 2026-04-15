@@ -15,12 +15,12 @@ Created on 05-02-2026 at 06:58 for the project Udemy Test class for directed gra
 *
 */
 
-import com.roadtoglory.ds.graphs.GraphV4;
+import com.roadtoglory.ds.graphs.DirectedGraph;
 
 public class GraphV4Testing {
 
     public static void main(String[] args) {
-        GraphV4 graph = new GraphV4();
+        DirectedGraph graph = new DirectedGraph();
         graph.insert(0);
         graph.insert(0, 1);
         graph.insert(1, 2);
@@ -31,7 +31,7 @@ public class GraphV4Testing {
 //        System.out.println("How Manu Cycles (Directed Graph Impl wit DFS) " + graph.countCycle());
 
 
-        graph = new GraphV4();
+        graph = new DirectedGraph();
         graph.insert(0);
         graph.insert(0, 1);
         graph.insert(2, 1);
@@ -42,7 +42,7 @@ public class GraphV4Testing {
 //        System.out.println("How Manu Cycles (Directed Graph Impl wit DFS) " + graph.countCycle());
 
 
-        graph = new GraphV4();
+        graph = new DirectedGraph();
         graph.insert(0);
         graph.insert(0, 1);
         graph.insert(1, 2);
@@ -56,7 +56,7 @@ public class GraphV4Testing {
 //        System.out.println("\nIs Cycle (Directed Graph Impl wit DFS) " + graph.isCycle());
 //        System.out.println("How Manu Cycles (Directed Graph Impl wit DFS) " + graph.countCycle());
 
-        graph = new GraphV4();
+        graph = new DirectedGraph();
         graph.insert(0);
         graph.insert(0, 1);
         graph.insert(2, 1);
@@ -71,7 +71,7 @@ public class GraphV4Testing {
 //        System.out.println("How Manu Cycles (Directed Graph Impl wit DFS) " + graph.countCycle());
 
 
-        graph = new GraphV4();
+        graph = new DirectedGraph();
         graph.insert(0);
         graph.insert(0, 2);
         graph.insert(0, 3);

@@ -18,7 +18,7 @@ Created on 05-02-2026 at 06:47 for the project Udemy Directed Graph implementati
 
 import java.util.*;
 
-public class GraphV4 {
+public class DirectedGraph {
 
     public static final int COUNTER = -1;
     private static int count = 0;
@@ -28,11 +28,11 @@ public class GraphV4 {
     private List<List<Integer>> dirAdjList;
     private int capacity;
 
-    public GraphV4() {
+    public DirectedGraph() {
         this(4);
     }
 
-    public GraphV4(int capacity) {
+    public DirectedGraph(int capacity) {
         this.dirAdjList = new ArrayList<>();
         this.capacity = capacity;
     }
@@ -288,36 +288,33 @@ public class GraphV4 {
     }
 
     public boolean isCycle() {
-       /* Map<Integer, Boolean> visitedVerticesMap = new HashMap<>();
-        List<Integer> traversedVetices = new ArrayList<>();
-        int index = 0;
-        for (; index < this.dirAdjList.size(); index++) {
-            if (!visitedVerticesMap.containsKey(index)) {
-                boolean isACycleTrue = isCycle(index, visitedVerticesMap, traversedVetices);
-                if (isACycleTrue) {
-                    return true;
-                }
-            }
-
-        }
-        return false;*/
-
-
-        Boolean[] visitedNodes = new Boolean[this.dirAdjList.size()];
-        List<List<Integer>> trvList = new ArrayList<>();
-        Integer resultListIndex = 0;
-        Arrays.fill(visitedNodes, false);
+        Set<Integer> visitedNodes = new HashSet<>();
+        boolean[] recStack = new boolean[this.dirAdjList.size()];
         boolean isCycle = false;
         for (int i = 0; i < this.dirAdjList.size(); i++) {
-
-            if (!visitedNodes[i]) {
-//                isCycle = isCycleDFS(i, null, visitedNodes, resultArrIndex, trvList);
-                if (isCycle) {
-                    break;
-                }
+            if (!visitedNodes.contains(i)) {
+                visitedNodes.add(i);
+                isCycle = dfs(i, null, visitedNodes, recStack);
+                if (isCycle) break;
             }
         }
         return isCycle;
+
+    }
+
+    private boolean dfs(int currentVertex, Integer parent, Set<Integer> visitedNodes, boolean[] recStack) {
+
+        visitedNodes.add(currentVertex);
+        recStack[currentVertex] = true;
+        List<Integer> childV = this.dirAdjList.get(currentVertex);
+        for (Integer child : childV) {
+            if (!visitedNodes.contains(child) && dfs(child, currentVertex, visitedNodes, recStack)) {
+                return true;
+            }
+            else if (recStack[child]) return true;
+        }
+        recStack[currentVertex] = false;
+        return false;
     }
 
     /*public boolean isCycleDFS(Integer vertex, Integer parent, Boolean[] visitedNodes, Integer resultListIndex,
