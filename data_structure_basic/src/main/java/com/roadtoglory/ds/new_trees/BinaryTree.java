@@ -15,9 +15,9 @@ Created on 14-04-2026 at 07:30 for the project Udemy Tree Study
 *
 */
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
+
+import static com.roadtoglory.ds.new_trees.BinaryTreeUtils.searchAndAdd;
 
 public class BinaryTree {
     private Node root;
@@ -69,7 +69,7 @@ public class BinaryTree {
         Node tr = this.root;
         if (tr != null) {
             if (tr.data == rootNode) {
-                assignNode(tr, data, nodeType);
+                BinaryTreeUtils.assignNode(tr, data, nodeType);
                 return;
             }
             boolean isAdded = searchAndAdd(tr.left, rootNode, data, nodeType);
@@ -77,6 +77,64 @@ public class BinaryTree {
                 searchAndAdd(tr.right, rootNode, data, nodeType);
             }
         }
+    }
+
+    public List<Integer> serializationTest(List<Integer> preOrder) {
+        Node node = deserialize(preOrder);
+        List<Integer> preOrderAL = new ArrayList<>();
+        serialize(node, preOrderAL);
+        return preOrderAL;
+    }
+
+    private void serialize(Node node, List<Integer> preOrderAL) {
+        if (node == null) {
+            preOrderAL.add(-1);
+            return;
+        }
+        preOrderAL.add(node.data);
+        serialize(node.left, preOrderAL);
+        serialize(node.right, preOrderAL);
+    }
+
+    private Node deserialize(List<Integer> preOrderArray) {
+        Stack<Node> nStack = new Stack<>();
+        Node traversal = null;
+        if (root == null) {
+            addTree(preOrderArray.get(0));
+            nStack.push(root);
+            traversal = root;
+
+        }
+        for (int i = 1; i < preOrderArray.size(); i++) {
+            if (preOrderArray.get(i) != -1) {
+                if (traversal.left == null) {
+                    add(preOrderArray.get(i), traversal.data, "left");
+                    traversal = traversal.left;
+                    nStack.push(traversal);
+                }
+                else {
+                    add(preOrderArray.get(i), traversal.data, "right");
+                    traversal = traversal.right;
+                    nStack.push(traversal);
+                }
+            }
+            else {
+                if (preOrderArray.get(i - 1) == -1 && !nStack.isEmpty()) {
+                    nStack.pop();
+                    traversal = nStack.pop();
+                }
+            }
+        }
+        return root;
+    }
+
+    public BinaryTree generateBT(List<Integer> preorder, List<Integer> inorder) {
+        BinaryTree binaryTree = new BinaryTreeUtils().genBTWithTraversal(null, preorder, inorder, false);
+        return binaryTree;
+    }
+
+    public List<Integer> spiralTraversal() {
+        return new BinaryTreeUtils().spiralFormPrint(this.root);
     }
 
     private int height(Node node) {
@@ -87,49 +145,38 @@ public class BinaryTree {
         return Math.max(height(node.right), height(node.left)) + 1;
     }
 
+    public List<Integer> levelOrderTraversal() {
+        Map<Integer, List<Integer>> levelOrderMap = new HashMap<>();
+        List<Integer> result = new ArrayList<>();
+        int level = 1;
+        new BinaryTreeUtils().levelOrderTraversal(this.root, levelOrderMap, level);
+        for (Map.Entry<Integer, List<Integer>> entry : levelOrderMap.entrySet()) {
+            result.addAll(entry.getValue());
+        }
+        return result;
+    }
+
+    public Integer LCA(Integer node1, Integer node2) {
+        return new BinaryTreeUtils().LCA(this.root, node1, node2);
+    }
+
     public void printNodes(int k) {
-        printNodes(k, this.root);
+        BinaryTreeUtils.printNodes(k, this.root);
     }
 
-    public void printNodes(int k, Node node) {
-        if (node == null) {
-            return;
-        }
-        if (k == 0) {
-            System.out.println(node.data + " ");
-        }
-        else {
-            printNodes(k - 1, node.left);
-            printNodes(k - 1, node.right);
-
-        }
+    public int size() {
+        return new BinaryTreeUtils().size(this.root, 0);
     }
 
-    private boolean searchAndAdd(Node node, int rootNodeData, int data, String nodeType) {
-        if (node != null) {
-            if (node.data == rootNodeData) {
-                assignNode(node, data, nodeType);
-                return true;
-            }
-            searchAndAdd(node.left, rootNodeData, data, nodeType);
-            searchAndAdd(node.right, rootNodeData, data, nodeType);
-        }
-
-        return false;
+    public int max() {
+        return new BinaryTreeUtils().max(this.root, 0);
     }
 
-    private void assignNode(Node node, int data, String nodeType) {
-        if (nodeType.equalsIgnoreCase("left")) {
-            System.out.println("Adding to the left");
-            node.left = new Node(data);
-        }
-        else {
-            System.out.println("Adding to the right");
-            node.right = new Node(data);
-        }
+    public boolean isChildrenSum() {
+        return new BinaryTreeUtils().isChildrenSum(this.root);
     }
 
-    private class Node {
+    protected class Node {
         int data;
         Node right;
         Node left;
