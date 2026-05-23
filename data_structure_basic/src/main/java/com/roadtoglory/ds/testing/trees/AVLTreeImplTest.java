@@ -21,31 +21,32 @@ public class AVLTreeImplTest {
 
     public static void main(String[] args) {
         AVLTree tree = new AVLTree();
-//        set1ForTest(tree);
-        tree.insertAsAVL(10);
-        tree.insertAsAVL(12);
-        tree.insertAsAVL(15);
-        tree.insertAsAVL(4);
-        tree.insertAsAVL(8);
-        tree.insertAsAVL(20);
-        tree.insertAsAVL(7);
-        tree.insertAsAVL(14);
-        tree.insertAsAVL(5);
-        tree.insertAsAVL(25);
-        tree.insertAsAVL(30);
-        tree.insertAsAVL(40);
-        tree.insertAsAVL(1);
-
-        System.out.println("Done.....");
+        set1ForTest(tree);
+//        tree.insertAsAVL(10);
+//        tree.insertAsAVL(12);
+//        tree.insertAsAVL(15);
+//        tree.insertAsAVL(4);
+//        tree.insertAsAVL(8);
+//        tree.insertAsAVL(20);
+//        tree.insertAsAVL(7);
+//        tree.insertAsAVL(14);
+//        tree.insertAsAVL(5);
+//        tree.insertAsAVL(25);
+//        tree.insertAsAVL(30);
+//        tree.insertAsAVL(40);
+//        tree.insertAsAVL(1);
+//
+//        System.out.println("Done.....");
     }
 
     private static void set1ForTest(AVLTree tree) {
-        tree.insertAsAVL(10);
-        tree.insertAsAVL(20);
+        tree.insertAsAVL(21);
+        tree.insertAsAVL(26);
         tree.insertAsAVL(30);
-        tree.insertAsAVL(40);
-        tree.insertAsAVL(25);
-        tree.insertAsAVL(5);
-        tree.insertAsAVL(50);
+        tree.insertAsAVL(9);
+        tree.insertAsAVL(4);
+        tree.insertAsAVL(14);
+        tree.insertAsAVL(28);
+        // not working
     }
 }
