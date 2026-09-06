@@ -24,8 +24,8 @@ public class DirectedGraph {
     private static int count = 0;
     private static List<List<Integer>> result = new ArrayList<>();
     private static Integer resultArrIndex = 0;
+    protected List<List<Integer>> dirAdjList;
     Stack<Integer> topoStack = new Stack<>();
-    private List<List<Integer>> dirAdjList;
     private int capacity;
 
     public DirectedGraph() {

@@ -35,6 +35,14 @@ public class GraphV3 {
         }
     }
 
+    public List<List<Integer>> getAdjList() {
+        return this.adjList;
+    }
+
+    public void setAdjList(List<List<Integer>> adjList) {
+        this.adjList = adjList;
+    }
+
     public void addVertex(int vertex) {
         if (vertex >= this.adjList.size()) {
             this.adjList.add(new ArrayList<>());
